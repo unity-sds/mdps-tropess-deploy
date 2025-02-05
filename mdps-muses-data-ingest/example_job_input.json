@@ -1,0 +1,10 @@
+{
+  "input": {
+    "class": "Directory",
+    "path": "./test/in"
+  },
+  "input_data_ingest_path": "CRIS/Release_1.17.0/Global_Survey_Grid_0.8_RS/Products/2020/06/14/batch-01",
+  "input_data_base_path": "s3://tropess-data-ingest/example/",
+  "collection_version": 1,
+  "collection_group_keyword": "reanalysis"
+}
