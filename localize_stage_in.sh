@@ -14,7 +14,7 @@ STAGE_IN_CWL="https://raw.githubusercontent.com/unity-sds/unity-data-services/re
 # unity-app-to-app-client-user-pool-client
 CLIENT_ID="7vehllplbone6p4usqgutqun35"
 
-DEFAULT_DOWNLOAD_DIR="./stage_out_download"
+DEFAULT_DOWNLOAD_DIR="./stage_in_download"
 
 # Detect if using Podman 
 if [ ! -z "$(which podman)" ]; then
