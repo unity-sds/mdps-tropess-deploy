@@ -1,0 +1,7 @@
+{
+  "input": {
+    "class": "Directory",
+    "path": "./test/in"
+  },
+  "product_type": "summary"
+}

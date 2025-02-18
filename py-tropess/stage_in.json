@@ -1,0 +1,1956 @@
+{
+  "numberMatched": {
+    "total_size": 22
+  },
+  "numberReturned": 22,
+  "stac_version": "1.0.0",
+  "type": "FeatureCollection",
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items?filter=sensor_set = 'CRIS_SNPP' and processing_datetime= '2020-06-14'&limit=100"
+    },
+    {
+      "rel": "root",
+      "href": "https://d2zjsabg0fonik.cloudfront.net"
+    }
+  ],
+  "features": [
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_FULL_CH3OH_CRS_RS",
+        "long_name": "MUSES CrIS Methanol for Reanalysis Stream, Full Product",
+        "collection_group": "reanalysis",
+        "product_type": "full",
+        "sensor_set": "CRIS_SNPP",
+        "species": "CH3OH",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:09:15.088000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:10:01.960000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "title": "CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Day_Night.json",
+          "title": "CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "title": "CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "description": "size=1767;checksumType=md5;checksum=0d2d1f2a94dd79a67d267624739d4b37;",
+          "file:size": 1767,
+          "file:checksum": "0d2d1f2a94dd79a67d267624739d4b37",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH4-0_2020_06_14_F02_1.17_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_FULL_CH4_CRS_RS",
+        "long_name": "MUSES CrIS Methane for Reanalysis Stream, Full Product",
+        "collection_group": "reanalysis",
+        "product_type": "full",
+        "sensor_set": "CRIS_SNPP",
+        "species": "CH4",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:09:13.574000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:10:01.259000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH4-0_2020_06_14_F02_1.17_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH4-0_2020_06_14_F02_1.17_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-CH4-0_2020_06_14_F02_1.17_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH4-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-CH4-0_2020_06_14_F02_1.17_Day_Night.json",
+          "title": "CRIS_L2-CH4-0_2020_06_14_F02_1.17_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-CH4-0_2020_06_14_F02_1.17_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH4-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-CH4-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "title": "CRIS_L2-CH4-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "description": "size=1765;checksumType=md5;checksum=4ac41f393ab4674b1571af04edd99567;",
+          "file:size": 1765,
+          "file:checksum": "4ac41f393ab4674b1571af04edd99567",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-CH4-0_2020_06_14_F02_1.17_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH4-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-CH4-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "title": "CRIS_L2-CH4-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-NH3-0_2020_06_14_F02_1.17_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_FULL_NH3_CRS_RS",
+        "long_name": "MUSES CrIS Ammonia for Reanalysis Stream, Full Product",
+        "collection_group": "reanalysis",
+        "product_type": "full",
+        "sensor_set": "CRIS_SNPP",
+        "species": "NH3",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:09:13.266000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:09:58.943000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-NH3-0_2020_06_14_F02_1.17_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-NH3-0_2020_06_14_F02_1.17_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-NH3-0_2020_06_14_F02_1.17_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-NH3-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-NH3-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "title": "CRIS_L2-NH3-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-NH3-0_2020_06_14_F02_1.17_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-NH3-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-NH3-0_2020_06_14_F02_1.17_Day_Night.json",
+          "title": "CRIS_L2-NH3-0_2020_06_14_F02_1.17_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-NH3-0_2020_06_14_F02_1.17_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-NH3-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-NH3-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "title": "CRIS_L2-NH3-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "description": "size=1765;checksumType=md5;checksum=3361520f591444ce3cf2c11a95c5abc3;",
+          "file:size": 1765,
+          "file:checksum": "3361520f591444ce3cf2c11a95c5abc3",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_LITE_O3_CRS_RS",
+        "long_name": "MUSES CrIS Ozone for Reanalysis Stream, Lite Product",
+        "collection_group": "reanalysis",
+        "product_type": "lite",
+        "sensor_set": "CRIS_SNPP",
+        "species": "O3",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:09:13.149000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:09:21.876000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-0_2020_06_14_F02_1.17_Litev01_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-O3-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-O3-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "title": "CRIS_L2-O3-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-O3-0_2020_06_14_F02_1.17_Litev01_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-O3-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "title": "CRIS_L2-O3-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-O3-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-O3-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "title": "CRIS_L2-O3-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "description": "size=1772;checksumType=md5;checksum=3531c3046d2da11bc1489b44a82521a4;",
+          "file:size": 1772,
+          "file:checksum": "3531c3046d2da11bc1489b44a82521a4",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-TATM-0_2020_06_14_F02_1.17_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_FULL_TATM_CRS_RS",
+        "long_name": "MUSES CrIS Atmospheric Temperature for Reanalysis Stream, Full Product",
+        "collection_group": "reanalysis",
+        "product_type": "full",
+        "sensor_set": "CRIS_SNPP",
+        "species": "TATM",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:09:12.400000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:09:21.001000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-TATM-0_2020_06_14_F02_1.17_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-TATM-0_2020_06_14_F02_1.17_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-TATM-0_2020_06_14_F02_1.17_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-TATM-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-TATM-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "title": "CRIS_L2-TATM-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-TATM-0_2020_06_14_F02_1.17_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-TATM-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-TATM-0_2020_06_14_F02_1.17_Day_Night.json",
+          "title": "CRIS_L2-TATM-0_2020_06_14_F02_1.17_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-TATM-0_2020_06_14_F02_1.17_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-TATM-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-TATM-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "title": "CRIS_L2-TATM-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "description": "size=1766;checksumType=md5;checksum=acf5084b78f0eb53354e6679a6f824ba;",
+          "file:size": 1766,
+          "file:checksum": "acf5084b78f0eb53354e6679a6f824ba",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-1_2020_06_14_F02_1.17_Litev01_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_LITE_H2O_CRS_RS",
+        "long_name": "MUSES CrIS Water for Reanalysis Stream, Lite Product",
+        "collection_group": "reanalysis",
+        "product_type": "lite",
+        "sensor_set": "CRIS_SNPP",
+        "species": "H2O",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "1",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:09:12.291000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:09:58.674000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-1_2020_06_14_F02_1.17_Litev01_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-1_2020_06_14_F02_1.17_Litev01_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-H2O-1_2020_06_14_F02_1.17_Litev01_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-1_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-H2O-1_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "title": "CRIS_L2-H2O-1_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-H2O-1_2020_06_14_F02_1.17_Litev01_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-1_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-H2O-1_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "title": "CRIS_L2-H2O-1_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-H2O-1_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-1_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-H2O-1_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "title": "CRIS_L2-H2O-1_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "description": "size=1773;checksumType=md5;checksum=ee332526ae5b8aeeb228ed67076b9726;",
+          "file:size": 1773,
+          "file:checksum": "ee332526ae5b8aeeb228ed67076b9726",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-0_2020_06_14_F02_1.17_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_FULL_O3_CRS_RS",
+        "long_name": "MUSES CrIS Ozone for Reanalysis Stream, Full Product",
+        "collection_group": "reanalysis",
+        "product_type": "full",
+        "sensor_set": "CRIS_SNPP",
+        "species": "O3",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:09:11.077000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:09:55.660000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-0_2020_06_14_F02_1.17_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-0_2020_06_14_F02_1.17_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-O3-0_2020_06_14_F02_1.17_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-O3-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "title": "CRIS_L2-O3-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-O3-0_2020_06_14_F02_1.17_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-O3-0_2020_06_14_F02_1.17_Day_Night.json",
+          "title": "CRIS_L2-O3-0_2020_06_14_F02_1.17_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-O3-0_2020_06_14_F02_1.17_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-O3-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "title": "CRIS_L2-O3-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "description": "size=1764;checksumType=md5;checksum=b04b102e31b7a24764305105ae1cd2c7;",
+          "file:size": 1764,
+          "file:checksum": "b04b102e31b7a24764305105ae1cd2c7",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-HDO-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_LITE_HDO_CRS_RS",
+        "long_name": "MUSES CrIS Deuterated Water Vapor for Reanalysis Stream, Lite Product",
+        "collection_group": "reanalysis",
+        "product_type": "lite",
+        "sensor_set": "CRIS_SNPP",
+        "species": "HDO",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:09:10.436000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:09:18.237000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-HDO-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-HDO-0_2020_06_14_F02_1.17_Litev01_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-HDO-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-HDO-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-HDO-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "title": "CRIS_L2-HDO-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-HDO-0_2020_06_14_F02_1.17_Litev01_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-HDO-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-HDO-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "title": "CRIS_L2-HDO-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-HDO-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-HDO-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-HDO-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "title": "CRIS_L2-HDO-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "description": "size=1773;checksumType=md5;checksum=087973eff0d264dbac4371a793521b6f;",
+          "file:size": 1773,
+          "file:checksum": "087973eff0d264dbac4371a793521b6f",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-PAN-0_2020_06_14_F02_1.17_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_FULL_PAN_CRS_RS",
+        "long_name": "MUSES CrIS Peroxyacetyl Nitrate for Reanalysis Stream, Full Product",
+        "collection_group": "reanalysis",
+        "product_type": "full",
+        "sensor_set": "CRIS_SNPP",
+        "species": "PAN",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:09:09.736000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:09:18.878000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-PAN-0_2020_06_14_F02_1.17_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-PAN-0_2020_06_14_F02_1.17_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-PAN-0_2020_06_14_F02_1.17_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-PAN-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-PAN-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "title": "CRIS_L2-PAN-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-PAN-0_2020_06_14_F02_1.17_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-PAN-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-PAN-0_2020_06_14_F02_1.17_Day_Night.json",
+          "title": "CRIS_L2-PAN-0_2020_06_14_F02_1.17_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-PAN-0_2020_06_14_F02_1.17_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-PAN-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-PAN-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "title": "CRIS_L2-PAN-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "description": "size=1765;checksumType=md5;checksum=87d019e761b5b9cfd4537b76173418c6;",
+          "file:size": 1765,
+          "file:checksum": "87d019e761b5b9cfd4537b76173418c6",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-1_2020_06_14_F02_1.17_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_FULL_H2O_CRS_RS",
+        "long_name": "MUSES CrIS Water for Reanalysis Stream, Full Product",
+        "collection_group": "reanalysis",
+        "product_type": "full",
+        "sensor_set": "CRIS_SNPP",
+        "species": "H2O",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "1",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:09:09.567000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:09:19.126000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-1_2020_06_14_F02_1.17_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-1_2020_06_14_F02_1.17_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-H2O-1_2020_06_14_F02_1.17_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-1_2020_06_14_F02_1.17_Day_Night/CRIS_L2-H2O-1_2020_06_14_F02_1.17_Day_Night.nc",
+          "title": "CRIS_L2-H2O-1_2020_06_14_F02_1.17_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-H2O-1_2020_06_14_F02_1.17_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-1_2020_06_14_F02_1.17_Day_Night/CRIS_L2-H2O-1_2020_06_14_F02_1.17_Day_Night.json",
+          "title": "CRIS_L2-H2O-1_2020_06_14_F02_1.17_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-H2O-1_2020_06_14_F02_1.17_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-1_2020_06_14_F02_1.17_Day_Night/CRIS_L2-H2O-1_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "title": "CRIS_L2-H2O-1_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "description": "size=1765;checksumType=md5;checksum=ec20a6059337693ac7794e1722eba918;",
+          "file:size": 1765,
+          "file:checksum": "ec20a6059337693ac7794e1722eba918",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-1_2020_06_14_F02_1.17_Litev01_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_LITE_O3_CRS_RS",
+        "long_name": "MUSES CrIS Ozone for Reanalysis Stream, Lite Product",
+        "collection_group": "reanalysis",
+        "product_type": "lite",
+        "sensor_set": "CRIS_SNPP",
+        "species": "O3",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "1",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:09:08.998000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:09:17.323000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-1_2020_06_14_F02_1.17_Litev01_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-1_2020_06_14_F02_1.17_Litev01_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-O3-1_2020_06_14_F02_1.17_Litev01_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-1_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-O3-1_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "title": "CRIS_L2-O3-1_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-O3-1_2020_06_14_F02_1.17_Litev01_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-1_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-O3-1_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "title": "CRIS_L2-O3-1_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-O3-1_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-1_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-O3-1_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "title": "CRIS_L2-O3-1_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "description": "size=1772;checksumType=md5;checksum=41b048dc0d6b7064f6a7fbbd25a9f5c1;",
+          "file:size": 1772,
+          "file:checksum": "41b048dc0d6b7064f6a7fbbd25a9f5c1",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CO-0_2020_06_14_F02_1.17_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_FULL_CO_CRS_RS",
+        "long_name": "MUSES CrIS Carbon Monoxide for Reanalysis Stream, Full Product",
+        "collection_group": "reanalysis",
+        "product_type": "full",
+        "sensor_set": "CRIS_SNPP",
+        "species": "CO",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:09:08.328000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:09:16.424000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CO-0_2020_06_14_F02_1.17_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CO-0_2020_06_14_F02_1.17_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-CO-0_2020_06_14_F02_1.17_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CO-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-CO-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "title": "CRIS_L2-CO-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-CO-0_2020_06_14_F02_1.17_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CO-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-CO-0_2020_06_14_F02_1.17_Day_Night.json",
+          "title": "CRIS_L2-CO-0_2020_06_14_F02_1.17_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-CO-0_2020_06_14_F02_1.17_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CO-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-CO-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "title": "CRIS_L2-CO-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "description": "size=1764;checksumType=md5;checksum=e1910b8c4fb33617074609baf89c8116;",
+          "file:size": 1764,
+          "file:checksum": "e1910b8c4fb33617074609baf89c8116",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-PAN-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_LITE_PAN_CRS_RS",
+        "long_name": "MUSES CrIS Peroxyacetyl Nitrate for Reanalysis Stream, Lite Product",
+        "collection_group": "reanalysis",
+        "product_type": "lite",
+        "sensor_set": "CRIS_SNPP",
+        "species": "PAN",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:09:08.294000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:09:17.236000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-PAN-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-PAN-0_2020_06_14_F02_1.17_Litev01_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-PAN-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-PAN-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-PAN-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "title": "CRIS_L2-PAN-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-PAN-0_2020_06_14_F02_1.17_Litev01_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-PAN-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-PAN-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "title": "CRIS_L2-PAN-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-PAN-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-PAN-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-PAN-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "title": "CRIS_L2-PAN-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "description": "size=1773;checksumType=md5;checksum=63b914f508ba7d7d0786559355375629;",
+          "file:size": 1773,
+          "file:checksum": "63b914f508ba7d7d0786559355375629",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-1_2020_06_14_F02_1.17_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_FULL_O3_CRS_RS",
+        "long_name": "MUSES CrIS Ozone for Reanalysis Stream, Full Product",
+        "collection_group": "reanalysis",
+        "product_type": "full",
+        "sensor_set": "CRIS_SNPP",
+        "species": "O3",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "1",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:09:06.118000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:09:15.234000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-1_2020_06_14_F02_1.17_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-1_2020_06_14_F02_1.17_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-O3-1_2020_06_14_F02_1.17_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-1_2020_06_14_F02_1.17_Day_Night/CRIS_L2-O3-1_2020_06_14_F02_1.17_Day_Night.nc",
+          "title": "CRIS_L2-O3-1_2020_06_14_F02_1.17_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-O3-1_2020_06_14_F02_1.17_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-1_2020_06_14_F02_1.17_Day_Night/CRIS_L2-O3-1_2020_06_14_F02_1.17_Day_Night.json",
+          "title": "CRIS_L2-O3-1_2020_06_14_F02_1.17_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-O3-1_2020_06_14_F02_1.17_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-O3-1_2020_06_14_F02_1.17_Day_Night/CRIS_L2-O3-1_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "title": "CRIS_L2-O3-1_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "description": "size=1764;checksumType=md5;checksum=7f4e28eef6b2c08a500d316e6d3ad898;",
+          "file:size": 1764,
+          "file:checksum": "7f4e28eef6b2c08a500d316e6d3ad898",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_LITE_CH3OH_CRS_RS",
+        "long_name": "MUSES CrIS Methanol for Reanalysis Stream, Lite Product",
+        "collection_group": "reanalysis",
+        "product_type": "lite",
+        "sensor_set": "CRIS_SNPP",
+        "species": "CH3OH",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:08:39.234000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:09:28.240000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Litev01_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "title": "CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Litev01_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "title": "CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "title": "CRIS_L2-CH3OH-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "description": "size=1775;checksumType=md5;checksum=faaa9f21bb48fa58e2cc4d77c94dfd6b;",
+          "file:size": 1775,
+          "file:checksum": "faaa9f21bb48fa58e2cc4d77c94dfd6b",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CO-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_LITE_CO_CRS_RS",
+        "long_name": "MUSES CrIS Carbon Monoxide for Reanalysis Stream, Lite Product",
+        "collection_group": "reanalysis",
+        "product_type": "lite",
+        "sensor_set": "CRIS_SNPP",
+        "species": "CO",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:08:35.268000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:08:44.763000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CO-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CO-0_2020_06_14_F02_1.17_Litev01_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-CO-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CO-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-CO-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "title": "CRIS_L2-CO-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-CO-0_2020_06_14_F02_1.17_Litev01_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CO-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-CO-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "title": "CRIS_L2-CO-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-CO-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CO-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-CO-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "title": "CRIS_L2-CO-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "description": "size=1772;checksumType=md5;checksum=a48f06367069c86cff1bfb473563c8f9;",
+          "file:size": 1772,
+          "file:checksum": "a48f06367069c86cff1bfb473563c8f9",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH4-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_LITE_CH4_CRS_RS",
+        "long_name": "MUSES CrIS Methane for Reanalysis Stream, Lite Product",
+        "collection_group": "reanalysis",
+        "product_type": "lite",
+        "sensor_set": "CRIS_SNPP",
+        "species": "CH4",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:08:34.609000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:08:43.487000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH4-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH4-0_2020_06_14_F02_1.17_Litev01_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-CH4-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH4-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-CH4-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "title": "CRIS_L2-CH4-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-CH4-0_2020_06_14_F02_1.17_Litev01_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH4-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-CH4-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "title": "CRIS_L2-CH4-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-CH4-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-CH4-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-CH4-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "title": "CRIS_L2-CH4-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "description": "size=1773;checksumType=md5;checksum=1d792d5b85f08094cae0dbf05e713108;",
+          "file:size": 1773,
+          "file:checksum": "1d792d5b85f08094cae0dbf05e713108",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_LITE_H2O_CRS_RS",
+        "long_name": "MUSES CrIS Water for Reanalysis Stream, Lite Product",
+        "collection_group": "reanalysis",
+        "product_type": "lite",
+        "sensor_set": "CRIS_SNPP",
+        "species": "H2O",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:08:34.595000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:08:43.492000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-0_2020_06_14_F02_1.17_Litev01_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-H2O-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-H2O-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "title": "CRIS_L2-H2O-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-H2O-0_2020_06_14_F02_1.17_Litev01_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-H2O-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "title": "CRIS_L2-H2O-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-H2O-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-H2O-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "title": "CRIS_L2-H2O-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "description": "size=1773;checksumType=md5;checksum=e8f00f1ea46650d71d96c9b2c96593d8;",
+          "file:size": 1773,
+          "file:checksum": "e8f00f1ea46650d71d96c9b2c96593d8",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-HDO-0_2020_06_14_F02_1.17_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_FULL_HDO_CRS_RS",
+        "long_name": "MUSES CrIS Deuterated Water Vapor for Reanalysis Stream, Full Product",
+        "collection_group": "reanalysis",
+        "product_type": "full",
+        "sensor_set": "CRIS_SNPP",
+        "species": "HDO",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:08:34.031000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:08:42.399000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-HDO-0_2020_06_14_F02_1.17_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-HDO-0_2020_06_14_F02_1.17_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-HDO-0_2020_06_14_F02_1.17_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-HDO-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-HDO-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "title": "CRIS_L2-HDO-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-HDO-0_2020_06_14_F02_1.17_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-HDO-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-HDO-0_2020_06_14_F02_1.17_Day_Night.json",
+          "title": "CRIS_L2-HDO-0_2020_06_14_F02_1.17_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-HDO-0_2020_06_14_F02_1.17_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-HDO-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-HDO-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "title": "CRIS_L2-HDO-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "description": "size=1765;checksumType=md5;checksum=f0b8297b903c3462977041ec3503ae95;",
+          "file:size": 1765,
+          "file:checksum": "f0b8297b903c3462977041ec3503ae95",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-NH3-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_LITE_NH3_CRS_RS",
+        "long_name": "MUSES CrIS Ammonia for Reanalysis Stream, Lite Product",
+        "collection_group": "reanalysis",
+        "product_type": "lite",
+        "sensor_set": "CRIS_SNPP",
+        "species": "NH3",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:08:33.576000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:08:41.213000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-NH3-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-NH3-0_2020_06_14_F02_1.17_Litev01_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-NH3-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-NH3-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-NH3-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "title": "CRIS_L2-NH3-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-NH3-0_2020_06_14_F02_1.17_Litev01_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-NH3-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-NH3-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "title": "CRIS_L2-NH3-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-NH3-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-NH3-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-NH3-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "title": "CRIS_L2-NH3-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "description": "size=1773;checksumType=md5;checksum=32cf0f68c8f34c710e3d0892306bd2cc;",
+          "file:size": 1773,
+          "file:checksum": "32cf0f68c8f34c710e3d0892306bd2cc",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-0_2020_06_14_F02_1.17_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_FULL_H2O_CRS_RS",
+        "long_name": "MUSES CrIS Water for Reanalysis Stream, Full Product",
+        "collection_group": "reanalysis",
+        "product_type": "full",
+        "sensor_set": "CRIS_SNPP",
+        "species": "H2O",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:08:33.101000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:08:42.067000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-0_2020_06_14_F02_1.17_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-0_2020_06_14_F02_1.17_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-H2O-0_2020_06_14_F02_1.17_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-H2O-0_2020_06_14_F02_1.17_Day_Night.json",
+          "title": "CRIS_L2-H2O-0_2020_06_14_F02_1.17_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-H2O-0_2020_06_14_F02_1.17_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-H2O-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "title": "CRIS_L2-H2O-0_2020_06_14_F02_1.17_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-H2O-0_2020_06_14_F02_1.17_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-H2O-0_2020_06_14_F02_1.17_Day_Night/CRIS_L2-H2O-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "title": "CRIS_L2-H2O-0_2020_06_14_F02_1.17_Day_Night.cmr.xml",
+          "description": "size=1765;checksumType=md5;checksum=7133a7709a5340adf95b4747f5962001;",
+          "file:size": 1765,
+          "file:checksum": "7133a7709a5340adf95b4747f5962001",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-TATM-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+      "properties": {
+        "project": "TROPESS",
+        "product_stage": "MUSES",
+        "short_name": "MUSES_LITE_TATM_CRS_RS",
+        "long_name": "MUSES CrIS Atmospheric Temperature for Reanalysis Stream, Lite Product",
+        "collection_group": "reanalysis",
+        "product_type": "lite",
+        "sensor_set": "CRIS_SNPP",
+        "species": "TATM",
+        "product_version": "1.17.0",
+        "processing_batch": "01",
+        "processing_profile": "Global_Survey_Grid_0.8_RS",
+        "retrieval_step": "0",
+        "processing_datetime": "2020-06-14T00:00:00",
+        "datetime": "2025-02-13T23:08:32.864000Z",
+        "start_datetime": "2020-06-13T23:53:59Z",
+        "end_datetime": "2020-06-15T00:04:54Z",
+        "created": "2020-06-13T23:53:59Z",
+        "updated": "2025-02-13T23:08:42.112000Z",
+        "status": "completed",
+        "provider": "unity"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.0,
+          0.0
+        ]
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "."
+        },
+        {
+          "rel": "self",
+          "href": "https://d2zjsabg0fonik.cloudfront.net/am-uds-dapa/collections/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/items/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-TATM-0_2020_06_14_F02_1.17_Litev01_Day_Night",
+          "type": "application/json",
+          "title": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-TATM-0_2020_06_14_F02_1.17_Litev01_Day_Night"
+        }
+      ],
+      "assets": {
+        "CRIS_L2-TATM-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-TATM-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-TATM-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "title": "CRIS_L2-TATM-0_2020_06_14_F02_1.17_Litev01_Day_Night.nc",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "data"
+          ]
+        },
+        "CRIS_L2-TATM-0_2020_06_14_F02_1.17_Litev01_Day_Night.json": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-TATM-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-TATM-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "title": "CRIS_L2-TATM-0_2020_06_14_F02_1.17_Litev01_Day_Night.json",
+          "description": "size=0;checksumType=md5;checksum=00000000000000000000000000000000;",
+          "file:size": 0,
+          "file:checksum": "00000000000000000000000000000000",
+          "roles": [
+            "metadata"
+          ]
+        },
+        "CRIS_L2-TATM-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml": {
+          "href": "s3://unity-ops-unity-storage/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1/urn:nasa:unity:unity:prod:MUSES-CRS-RS___1:CRIS_L2-TATM-0_2020_06_14_F02_1.17_Litev01_Day_Night/CRIS_L2-TATM-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "title": "CRIS_L2-TATM-0_2020_06_14_F02_1.17_Litev01_Day_Night.cmr.xml",
+          "description": "size=1774;checksumType=md5;checksum=a74a412e4374b725a152279faae934de;",
+          "file:size": 1774,
+          "file:checksum": "a74a412e4374b725a152279faae934de",
+          "roles": [
+            "metadata"
+          ]
+        }
+      },
+      "bbox": [
+        -179.62240600585938,
+        -66.76636505126953,
+        179.6302947998047,
+        84.73213195800781
+      ],
+      "stac_extensions": [
+        "https://stac-extensions.github.io/file/v2.1.0/schema.json"
+      ],
+      "collection": "urn:nasa:unity:unity:prod:MUSES-CRS-RS___1"
+    }
+  ]
+}
