@@ -120,14 +120,20 @@ class DeployApp(object):
         # Use make-template from cwl tool on the CWL we created
         # Read in that YAML and merge with existing JSON
         example_job_filename = os.path.join(app_artifact_dirname, EXAMPLE_JOB_INPUT_FILENAME)
-        with open(example_job_filename, "r") as ex_file:
-            ex_inp_contents = json.load(ex_file)
+        if os.path.exists(example_job_filename):
+            with open(example_job_filename, "r") as ex_file:
+                ex_inp_contents = json.load(ex_file)
+        else:
+            ex_inp_contents = None
 
         yaml_output = subprocess.check_output(f"cwltool --make-template {dest_cwl_fn}", shell=True)
         yaml_contents = yaml.safe_load(yaml_output)
 
         # Update template with existing file so any manually modified values are preserved
-        yaml_contents.update(ex_inp_contents)
+        if ex_inp_contents is not None:
+            yaml_contents.update(ex_inp_contents)
+        else:
+            ex_inp_contents = yaml_contents
 
         with open(example_job_filename, "w") as ex_file:
             json.dump(ex_inp_contents, ex_file, indent=2)
