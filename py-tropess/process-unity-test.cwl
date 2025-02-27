@@ -1,6 +1,9 @@
 #!/usr/bin/env cwl-runner
 arguments:
 - -p
+- input_stac_catalog_dir
+- $(inputs.input.path)
+- -p
 - output_stac_catalog_dir
 - $(runtime.outdir)
 baseCommand:
@@ -18,15 +21,26 @@ class: CommandLineTool
 cwlVersion: v1.2
 inputs:
   collection_group_keyword:
-    default: reanalysis
+    default: los_angeles
     type: string
   collection_version:
     default: 1
     type: int
+  granule_version:
+    default: 2
+    type: int
   input: Directory
   input_data_base_path:
+    default: s3://tropess-temp/rs/muses/
     type: string
   input_data_ingest_path:
+    default: CRIS-JPSS-1/Release_1.23.0/Los_Angeles/Products/2025/01/07/
+    type: string
+  processing_species:
+    default: null
+    type: 'null'
+  product_type:
+    default: standard
     type: string
 outputs:
   output:
@@ -39,7 +53,7 @@ outputs:
     type: File
 requirements:
   DockerRequirement:
-    dockerPull: 103739919403.dkr.ecr.us-west-2.amazonaws.com/tropess/mdps-muses-data-ingest:latest
+    dockerPull: 561555463819.dkr.ecr.us-west-2.amazonaws.com/tropess/py-tropess:latest
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs)

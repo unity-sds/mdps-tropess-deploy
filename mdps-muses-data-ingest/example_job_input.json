@@ -1,10 +1,10 @@
 {
+  "input_data_ingest_path": "CRIS-JPSS-1/Release_1.23.0/Los_Angeles/Products/2025/01/07/",
+  "input_data_base_path": "s3://tropess-temp/rs/muses/",
   "input": {
     "class": "Directory",
-    "path": "./test/in"
+    "path": "a/directory/path"
   },
-  "input_data_ingest_path": "CRIS/Release_1.17.0/Global_Survey_Grid_0.8_RS/Products/2020/06/14/batch-01",
-  "input_data_base_path": "s3://tropess-data-ingest/example/",
   "collection_version": 1,
-  "collection_group_keyword": "reanalysis"
+  "collection_group_keyword": "los_angeles"
 }
