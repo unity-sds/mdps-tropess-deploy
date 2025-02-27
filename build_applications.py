@@ -67,19 +67,30 @@ class DeployApp(object):
 
         return state_dir
 
-    def build_app(self, source_repo, image_tag=None):
-        "Build Docker image to be used for venue deployment"
+    def init_repo(self, source_repo):
+        "Handle copying of Git repository from source location"
 
-        logger.info(f"Building {self.app_name} from {source_repo} for {self.project_name}/{self.venue_name}")
+        logger.info(f"Initializing {self.app_name} from {source_repo} for {self.project_name}/{self.venue_name}")
 
         # Clone repo into state dir
         checkout_dir = os.path.join(self.app_state_dir, "repo")
 
+        # Remove previous copy to prevent overwrites
+        if os.path.exists(checkout_dir) and os.path.realpath(source_repo) != os.path.realpath(checkout_dir):
+            logger.debug(f"Removing existing checkout dir {checkout_dir}")
+            shutil.rmtree(checkout_dir)
+
         build_interface.init(self.app_state_dir, source_repo, checkout_dir)
+
+    def build_app(self, image_tag=None):
+        "Build Docker image to be used for venue deployment"
+
+        logger.info(f"Building {self.app_name} for {self.project_name}/{self.venue_name}")
 
         # Build a local Docker image
         build_interface.build_docker(self.app_state_dir,
                                      image_namespace=DOCKER_IMAGE_NAMESPACE,
+                                     image_repository=ARTIFACT_DIRS[self.app_name],
                                      image_tag=image_tag)
 
     def deploy_for_venue(self):
@@ -162,8 +173,9 @@ def main():
 
     for app_name in app_list:
         app_deploy = DeployApp(app_name, args.project_name, args.venue_name)
+        app_deploy.init_repo(getattr(args, app_name))
         if not args.skip_build:
-            app_deploy.build_app(getattr(args, app_name), args.docker_tag)
+            app_deploy.build_app(args.docker_tag)
         app_deploy.deploy_for_venue()
         app_deploy.update_artifacts()
 
