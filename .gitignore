@@ -3,3 +3,6 @@ test/
 
 # App state for building with build_ogc_app
 .app_state
+
+# Local environment variables
+.env
