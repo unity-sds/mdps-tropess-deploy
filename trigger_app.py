@@ -22,6 +22,10 @@ from unity_sds_client.unity import UnityEnvironments
 import boto3
 from dotenv import load_dotenv
 
+# Import both because the first initiates begining in the config
+from tropess_product_spec.config import collection_groups
+from tropess_product_spec.schema import CollectionGroup
+
 REQUEST_INSTANCE_TYPE = "t3.medium"
 REQUEST_STORAGE = "10Gi"
 
@@ -182,6 +186,11 @@ class TropessDAGRunner(object):
 
         # Verify the S3 path is accessible
         self._verify_s3_path(input_data_base_path, input_data_ingest_path)
+
+        # Verify the collection_group_keyword
+        collection_group_obj = CollectionGroup.get_collection_group(collection_group_keyword)
+        if collection_group_obj is None:
+            raise Exception(f"Invalid collection_group_keyword: {collection_group_keyword}")
         
         process_args = {
             "input_data_ingest_path": input_data_ingest_path,
@@ -224,7 +233,7 @@ class TropessDAGRunner(object):
         if trigger:
             self.trigger_dag(process_workflow_url, process_args, stac_json_url, use_ecr=True)
 
-    def py_tropess(self, **kwargs):
+    def py_tropess(self, product_type, processing_species, granule_version, **kwargs):
         pass
 
 def main():
@@ -252,10 +261,26 @@ def main():
     parser_ingest.add_argument("-b", "--base_path", dest="input_data_base_path", required=False,
         help="Base S3 URL path where data is sourced from")
     
-    parser_ingest.add_argument("-v", "--verbose", dest="collection_version", required=False,
+    parser_ingest.add_argument("-v", "--version", dest="collection_version", required=False,
         help="Collection version for the data being ingested")
        
     parser_ingest.set_defaults(func=TropessDAGRunner.data_ingest)
+
+    # py_tropess
+
+    parser_pyt = subparsers.add_parser('py_tropess',
+    help=f"Initiate processing of data through py-tropess")
+
+    parser_pyt.add_argument("-p", "--product", dest="product_type", required=True,
+        help="The type of TROPESS product to create")
+
+    parser_pyt.add_argument("-s", "--species", dest="processing_species", required=False,
+        help="Comma seperated list of species to generate other than all valid ones")
+
+    parser_pyt.add_argument("-v", "--version", dest="granule_version", required=False,
+        help="Granule version for the collection ID being delivered to the DAAC")
+
+    parser_pyt.set_defaults(func=TropessDAGRunner.py_tropess)
 
     # final argument processing
     args = parser.parse_args()
@@ -266,7 +291,7 @@ def main():
         logging.basicConfig(level=logging.INFO)
 
     args_dict = vars(args)
-    
+
     dag_trigger = TropessDAGRunner(**args_dict)
 
     command_args = read_job_file(args.subparser_name)
