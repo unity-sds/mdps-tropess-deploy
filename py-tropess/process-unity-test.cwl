@@ -20,22 +20,10 @@ baseCommand:
 class: CommandLineTool
 cwlVersion: v1.2
 inputs:
-  collection_group_keyword:
-    default: los_angeles
-    type: string
-  collection_version:
-    default: 1
-    type: int
   granule_version:
     default: 2
     type: int
   input: Directory
-  input_data_base_path:
-    default: s3://tropess-temp/rs/muses/
-    type: string
-  input_data_ingest_path:
-    default: CRIS-JPSS-1/Release_1.23.0/Los_Angeles/Products/2025/01/07/
-    type: string
   processing_species:
     default: null
     type: 'null'

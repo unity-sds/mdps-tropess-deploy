@@ -1,7 +1,9 @@
 {
+  "product_type": "standard",
+  "processing_species": "null",
   "input": {
     "class": "Directory",
-    "path": "./test/in"
+    "path": "a/directory/path"
   },
-  "product_type": "summary"
+  "granule_version": 2
 }

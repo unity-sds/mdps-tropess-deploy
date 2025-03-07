@@ -23,12 +23,15 @@ inputs:
   collection_version:
     default: 1
     type: int
+  compress_data_files:
+    default: true
+    type: boolean
   input: Directory
   input_data_base_path:
     default: s3://tropess-temp/rs/muses/
     type: string
   input_data_ingest_path:
-    default: CRIS-JPSS-1/Release_1.23.0/Los_Angeles/Products/2025/01/07/
+    default: CRIS-JPSS-1/Release_1.23.0/Los_Angeles/Products/2025/01/07
     type: string
 outputs:
   output:
