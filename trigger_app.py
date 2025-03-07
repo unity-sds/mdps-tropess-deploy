@@ -3,6 +3,7 @@
 """
 
 import os
+import re
 import json
 
 import argparse
@@ -18,11 +19,15 @@ from urllib.parse import urlparse
 
 from unity_sds_client.unity import Unity
 from unity_sds_client.unity import UnityEnvironments
+from unity_sds_client.unity_services import UnityServices as services
+from unity_sds_client.resources.collection import Collection
 
 import boto3
 from dotenv import load_dotenv
+import dateparser
 
 # Import both because the first initiates begining in the config
+import tropess_product_spec.config as tps_config
 from tropess_product_spec.config import collection_groups
 from tropess_product_spec.schema import CollectionGroup
 
@@ -38,6 +43,7 @@ logger = logging.getLogger()
 # JSON files relative to this directory with default values in the form of a CWL parameters file
 DEFAULT_JOB_PARAMETER_FILE = {
     "data_ingest": "mdps-muses-data-ingest/example_job_input.json",
+    "py_tropess": "py-tropess/example_job_input.json",
 }
 
 # Sub directories under current directory where we can find deployment files
@@ -177,6 +183,31 @@ class TropessDAGRunner(object):
         if response := requests.get(url).status_code != 200:
             raise Exception(f"Invalid file url: {url}, get failed with status code: {response.status_code}")
 
+
+    def _process_workflow_url(self, subcommand_name):
+
+        # Find the process.cwl file for the current project/venue
+        # Verify that it exists locally before assuming the URL we construct is valid
+        process_workflow_filename = CWL_WORKFLOW_FILENAME.format(
+            subcommand_dir=SUBCOMMAND_DIRS[subcommand_name],
+            project=self.unity._session._project,
+            venue=self.unity._session._venue,
+        ) 
+
+        if not os.path.exists(os.path.join(REPO_BASE_DIR, process_workflow_filename)):
+            raise Exception(f"Could not find process CWL file: {process_workflow_filename}")
+        
+        process_workflow_url = os.path.join(DEPLOY_FILES_BASE_URL, process_workflow_filename)
+
+        if response := requests.get(process_workflow_url).status_code != 200:
+            raise Exception(f"Invalid process CWL url: {process_workflow_url}, get failed with status code: {response.status_code}")
+
+        self._verify_file_url(process_workflow_url)
+
+        logger.info(f"Using worflow CWL: {process_workflow_url}")        
+
+        return process_workflow_url
+
     def data_ingest(self, input_data_ingest_path, collection_group_keyword, input_data_base_path, collection_version, trigger=False,  **kwargs):
 
         assert(input_data_ingest_path is not None)
@@ -199,26 +230,8 @@ class TropessDAGRunner(object):
             "collection_version": collection_version,
         }
         
-        # Find the process.cwl file for the current project/venue
-        # Verify that it exists locally before assuming the URL we construct is valid
-        process_workflow_filename = CWL_WORKFLOW_FILENAME.format(
-            subcommand_dir=SUBCOMMAND_DIRS["data_ingest"],
-            project=self.unity._session._project,
-            venue=self.unity._session._venue,
-        ) 
+        process_workflow_url = self._process_workflow_url("data_ingest")
 
-        if not os.path.exists(os.path.join(REPO_BASE_DIR, process_workflow_filename)):
-            raise Exception(f"Could not find process CWL file: {process_workflow_filename}")
-        
-        process_workflow_url = os.path.join(DEPLOY_FILES_BASE_URL, process_workflow_filename)
-
-        if response := requests.get(process_workflow_url).status_code != 200:
-            raise Exception(f"Invalid process CWL url: {process_workflow_url}, get failed with status code: {response.status_code}")
-
-        self._verify_file_url(process_workflow_url)
-
-        logger.info(f"Using worflow CWL: {process_workflow_url}")
-        
         # Use the empty stac_json stored in the repo
         stac_json_url = os.path.join(
             DEPLOY_FILES_BASE_URL,
@@ -233,9 +246,96 @@ class TropessDAGRunner(object):
         if trigger:
             self.trigger_dag(process_workflow_url, process_args, stac_json_url, use_ecr=True)
 
-    def py_tropess(self, product_type, processing_species, granule_version, **kwargs):
-        pass
+    def _find_sensor_set(self, collection_group_obj, sensor_set_str):
+        "Find a sensor set string via straight keyword or from an alias attatched to the collection_group"
 
+        # Sensor Set object from keyword
+        sensor_set_obj = tps_config.sensor_sets.get(sensor_set_str, None)
+        
+        # A collection group has a set of sensor sets that are valid, the mappings are mapped by the string used for the directory structure
+        # Try the string with this alias
+        if sensor_set_obj is None:
+            sensor_set_mapping = collection_group_obj.sensor_set_mappings.get(sensor_set_str, None)
+            if sensor_set_mapping is not None:
+                sensor_set_obj = sensor_set_mapping.sensor_set
+        
+        if sensor_set_obj is None:
+            raise Exception(f'Could not determine sensor set from string: "{sensor_set_str}"')
+
+        return sensor_set_obj
+
+    def query_data_catalog(self, collection_id, processing_date, limit=10000):
+
+        logger.info(f"Searching data catalog for MUSES data for collection {collection_id} on date {processing_date}")
+
+        query_filter = f"processing_datetime= '{processing_date}'"
+
+        data_manager = self.unity.client(services.DATA_SERVICE)
+
+        stac_query_result = data_manager.get_collection_data(Collection(collection_id), limit=limit, filter=query_filter, output_stac=True)
+
+        if 'features' not in stac_query_result:
+            raise Exception(f"Error querying data catalog: {stac_query_result['message']}")
+
+        nc_files = []
+        for feat in stac_query_result['features']:
+            nc_files += list(filter(lambda fn: re.search(r'\.nc$', fn), feat['assets'].keys()))
+        nc_files
+
+        if len(nc_files):
+            raise Exception(f"Found 0 files to process")
+
+        logger.info(f"Found {len(nc_fles)} to process:")
+        for fn in nc_files:
+            logger.info(f" - {fn}")
+
+        return stac_query_result
+
+    def _catalog_query_url(self, stac_query_result):
+        "URL to the data catalog query"
+
+        return stac_query_result['links'][0]['href']
+
+    def py_tropess(self, collection_group_keyword, sensor_set, processing_date, product_type, processing_species, muses_collection_version, granule_version, stage_in_output=None, trigger=False, **kwargs):
+        
+        # Verify the collection_group_keyword
+        collection_group_obj = CollectionGroup.get_collection_group(collection_group_keyword)
+        if collection_group_obj is None:
+            raise Exception(f"Invalid collection_group_keyword: {collection_group_keyword}")
+
+        # Get sensor_set object from string
+        sensor_set_obj = self._find_sensor_set(collection_group_obj, sensor_set)
+
+        # Generate collection ID for data services query
+        mdps_project=self.unity._session._project
+        mdps_venue=self.unity._session._venue
+        mdps_collection_name = f'MUSES-{sensor_set_obj.short_name}-{collection_group_obj.short_name}'
+        mdps_collection_id = f"URN:NASA:UNITY:{mdps_project}:{mdps_venue}:{mdps_collection_name}___{muses_collection_version}"
+
+        # Get consistent date string for DS query -> YYYY-MM-DD
+        query_date = dateparser.parse(processing_date).strftime("%Y-%m-%d")
+
+        # Get information on files we want to process
+        stac_query_result = self.query_data_catalog(mdps_collection_id, query_date)
+
+        if stage_in_output is not None:
+            with open(stage_in_output, "w") as stage_in_file:
+                json.dump(stac_query_result, stage_in_file)
+    
+        # Now construct arguments for DAG query
+        process_args = {
+            "product_type": product_type,
+            "processing_species": processing_species,
+            "granule_version": granule_version,
+        }
+        
+        process_workflow_url = self._process_workflow_url("py_tropess")
+        stac_json_url = self._catalog_query_url(stac_query_result)
+
+        # With verification done, trigger the Airflow run
+        if trigger:
+            self.trigger_dag(process_workflow_url, process_args, stac_json_url, use_ecr=True)
+        
 def main():
 
     parser = argparse.ArgumentParser(description="Trigger TROPESS processing in MDPS")
@@ -255,7 +355,7 @@ def main():
     parser_ingest.add_argument("-i", "--input_path", dest="input_data_ingest_path", required=True,
         help="Path under base S3 path with files to be ingested")
     
-    parser_ingest.add_argument("-k", "--keyword", dest="collection_group_keyword", required=True,
+    parser_ingest.add_argument("-c", "--collection_keyword", dest="collection_group_keyword", required=True,
         help="Keyword of the collection group representing the data being ingested")
      
     parser_ingest.add_argument("-b", "--base_path", dest="input_data_base_path", required=False,
@@ -271,14 +371,29 @@ def main():
     parser_pyt = subparsers.add_parser('py_tropess',
     help=f"Initiate processing of data through py-tropess")
 
-    parser_pyt.add_argument("-p", "--product", dest="product_type", required=True,
-        help="The type of TROPESS product to create")
+    parser_pyt.add_argument("-c", "--collection_keyword", dest="collection_group_keyword", required=True,
+        help="Keyword of the collection group representing the data being processed")
 
-    parser_pyt.add_argument("-s", "--species", dest="processing_species", required=False,
+    parser_pyt.add_argument("-s", "--sensor_set", dest="sensor_set", required=True,
+        help="Sensor set for MUSES data to processed into TROPESS products")
+
+    parser_pyt.add_argument("-d", "--date", dest="processing_date", required=True,
+        help="Calendar date for the MUSES data to processed into TROPESS products")
+
+    parser_pyt.add_argument("-p", "--product", dest="product_type", required=True,
+        help="The type of TROPESS product to create, ie summary/standard/full")
+
+    parser_pyt.add_argument("--species", dest="processing_species", required=False,
         help="Comma seperated list of species to generate other than all valid ones")
 
-    parser_pyt.add_argument("-v", "--version", dest="granule_version", required=False,
+    parser_pyt.add_argument("--muses_version", dest="muses_collection_version", required=False,
+        help="Collection version for the MUSES data being processed", default="1")
+
+    parser_pyt.add_argument( "--tropess_version", dest="granule_version", required=False,
         help="Granule version for the collection ID being delivered to the DAAC")
+
+    parser_pyt.add_argument( "--stage_in_output", dest="stage_in_output_filename", required=False,
+        help="Save stage in STAC catalog from the data store into a file")
 
     parser_pyt.set_defaults(func=TropessDAGRunner.py_tropess)
 

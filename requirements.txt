@@ -2,4 +2,10 @@ requests
 dotenv
 boto3
 pyyaml
+dateparser
 unity_sds_client
+mdps-app-generator>=1.1.0
+# These packages are kept in JPL CAE Artifactory PyPi
+# See configuration instructions here:
+# https://github.jpl.nasa.gov/pages/MUSES-Processing/tropess-documentation/docs/delivery/pypi.html#installing-packages
+tropess-product-spec>=2.3.0
