@@ -49,7 +49,7 @@ DEFAULT_JOB_PARAMETER_FILE = {
 # Sub directories under current directory where we can find deployment files
 SUBCOMMAND_DIRS = {
     "data_ingest": "mdps-muses-data-ingest",
-    "py_tropess": "py_tropess",
+    "py_tropess": "py-tropess",
 }
 
 # URL base for files given to Airflow
@@ -264,11 +264,11 @@ class TropessDAGRunner(object):
 
         return sensor_set_obj
 
-    def query_data_catalog(self, collection_id, processing_date, limit=10000):
+    def query_data_catalog(self, collection_id, processing_date, stac_output_filename=None, limit=10000):
 
         logger.info(f"Searching data catalog for MUSES data for collection {collection_id} on date {processing_date}")
 
-        query_filter = f"processing_datetime= '{processing_date}'"
+        query_filter = f"processing_datetime='{processing_date}'"
 
         data_manager = self.unity.client(services.DATA_SERVICE)
 
@@ -277,15 +277,21 @@ class TropessDAGRunner(object):
         if 'features' not in stac_query_result:
             raise Exception(f"Error querying data catalog: {stac_query_result['message']}")
 
+        # Write out STAC file before further checking might exit program
+        if stac_output_filename is not None:
+            logger.info(f"Writing STAC result to: {stac_output_filename}")
+            with open(stac_output_filename, "w") as stage_in_file:
+                json.dump(stac_query_result, stage_in_file)
+
+        # Load a list of files found in the STAC results for verification purposes
         nc_files = []
         for feat in stac_query_result['features']:
             nc_files += list(filter(lambda fn: re.search(r'\.nc$', fn), feat['assets'].keys()))
-        nc_files
 
-        if len(nc_files):
+        if len(nc_files) == 0:
             raise Exception(f"Found 0 files to process")
 
-        logger.info(f"Found {len(nc_fles)} to process:")
+        logger.info(f"Found {len(nc_files)} to process:")
         for fn in nc_files:
             logger.info(f" - {fn}")
 
@@ -316,12 +322,8 @@ class TropessDAGRunner(object):
         query_date = dateparser.parse(processing_date).strftime("%Y-%m-%d")
 
         # Get information on files we want to process
-        stac_query_result = self.query_data_catalog(mdps_collection_id, query_date)
+        stac_query_result = self.query_data_catalog(mdps_collection_id, query_date, stage_in_output)
 
-        if stage_in_output is not None:
-            with open(stage_in_output, "w") as stage_in_file:
-                json.dump(stac_query_result, stage_in_file)
-    
         # Now construct arguments for DAG query
         process_args = {
             "product_type": product_type,
