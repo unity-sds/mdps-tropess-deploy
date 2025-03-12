@@ -103,7 +103,7 @@ class TropessDAGRunner(object):
 
         url = os.path.join(airflow_host, f"api/v1/dags/{DAG_NAME}/dagRuns")
 
-        logger.info(f"Using AirFlow API URL: {url}")
+        logger.info(f"Using Airflow API URL: {url}")
 
         headers = {
             "Content-type": "application/json", 
@@ -131,7 +131,7 @@ class TropessDAGRunner(object):
         logger.debug(pformat(data['conf'], indent=2))
 
         if trigger:
-            logger.info(f"Triggering AirFlow DAG at: {url}")
+            logger.info(f"Triggering Airflow DAG at: {url}")
 
             result = requests.post(
                 url, json=data, headers=headers, auth=HTTPBasicAuth(airflow_username, airflow_password),
@@ -145,7 +145,7 @@ class TropessDAGRunner(object):
             if result.status_code != 200:
                 raise Exception(f"Error triggering Airflow DAG at {url}: {result.text}")
         else:
-            logger.info("AirFlow DAG dry-run only")
+            logger.info("Airflow DAG dry-run only")
 
     def _verify_s3_path(self, base_path, data_path):
 
@@ -353,7 +353,7 @@ def main():
         help=f"Enable verbose debug logging")
 
     parser.add_argument("--trigger", action="store_true", default=False,
-        help="Unless specified the AirFlow is not trigger, instead a dry run is done")
+        help="Unless specified the Airflow is not trigger, instead a dry run is done")
 
     subparsers = parser.add_subparsers(required=True, dest='subparser_name')
 
