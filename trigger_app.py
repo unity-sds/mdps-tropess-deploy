@@ -128,8 +128,10 @@ class TropessDAGRunner(object):
             },
         }
 
-        logger.debug(f"DAG parameters:")
+        logger.debug("DAG parameters:")
         logger.debug(pformat(data['conf'], indent=2))
+        logger.debug("process_args from DAG parameters as one line:")
+        logger.debug(data['conf']['process_args'])
 
         if trigger:
             logger.info(f"Triggering Airflow DAG at: {url}")
