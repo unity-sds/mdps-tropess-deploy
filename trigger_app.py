@@ -172,7 +172,7 @@ class TropessDAGRunner(object):
                 raise Exception(f"Did not find {expected_dir} under {url_full_path}")
 
         # Log what we found at the S3 path
-        logger.info("Ingesting data from S3 path: {url_full_path}")
+        logger.info(f"Ingesting data from S3 path: {url_full_path}")
         logger.info("Path contains:")
         for sub_dir in path_sub_items:
             logger.info(f" - {sub_dir}")
@@ -199,7 +199,7 @@ class TropessDAGRunner(object):
         
         process_workflow_url = os.path.join(DEPLOY_FILES_BASE_URL, process_workflow_filename)
 
-        if response := requests.get(process_workflow_url).status_code != 200:
+        if (response := requests.get(process_workflow_url)).status_code != 200:
             raise Exception(f"Invalid process CWL url: {process_workflow_url}, get failed with status code: {response.status_code}")
 
         self._verify_file_url(process_workflow_url)
