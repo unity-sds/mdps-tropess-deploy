@@ -9,7 +9,7 @@ import json
 import argparse
 
 from datetime import datetime, timezone
-from pprint import pprint
+from pprint import pprint, pformat
 
 import logging
 
@@ -90,7 +90,7 @@ class TropessDAGRunner(object):
 
         return s
 
-    def trigger_dag(self, process_workflow, process_args, stac_json, use_ecr=True):
+    def trigger_dag(self, process_workflow, process_args, stac_json, use_ecr=True, trigger=False):
 
         # get airflow host,user,pwd from ENV variables
         if "AIRFLOW_HOST" in os.environ:
@@ -103,7 +103,7 @@ class TropessDAGRunner(object):
 
         url = os.path.join(airflow_host, f"api/v1/dags/{DAG_NAME}/dagRuns")
 
-        logger.info(f"Triggering AirFlow at: {url}")
+        logger.info(f"Using AirFlow API URL: {url}")
 
         headers = {
             "Content-type": "application/json", 
@@ -127,17 +127,25 @@ class TropessDAGRunner(object):
             },
         }
 
-        result = requests.post(
-            url, json=data, headers=headers, auth=HTTPBasicAuth(airflow_username, airflow_password),
-            timeout=15,
-        )
+        logger.debug(f"DAG parameters:")
+        logger.debug(pformat(data['conf'], indent=2))
 
-        result_json = result.json()
-        logger.debug("Response JSON:")
-        logger.debug(result_json)
+        if trigger:
+            logger.info(f"Triggering AirFlow DAG at: {url}")
 
-        if result.status_code != 200:
-            raise Exception(f"Error triggering Airflow DAG at {url}: {result.text}")
+            result = requests.post(
+                url, json=data, headers=headers, auth=HTTPBasicAuth(airflow_username, airflow_password),
+                timeout=15,
+            )
+
+            result_json = result.json()
+            logger.debug("Response JSON:")
+            logger.debug(pformat(result_json, indent=2))
+
+            if result.status_code != 200:
+                raise Exception(f"Error triggering Airflow DAG at {url}: {result.text}")
+        else:
+            logger.info("AirFlow DAG dry-run only")
 
     def _verify_s3_path(self, base_path, data_path):
 
@@ -243,8 +251,7 @@ class TropessDAGRunner(object):
         logger.info(f"Using STAC JSON: {stac_json_url}")
 
         # With verification done, trigger the Airflow run
-        if trigger:
-            self.trigger_dag(process_workflow_url, process_args, stac_json_url, use_ecr=True)
+        self.trigger_dag(process_workflow_url, process_args, stac_json_url, use_ecr=True, trigger=trigger)
 
     def _find_sensor_set(self, collection_group_obj, sensor_set_str):
         "Find a sensor set string via straight keyword or from an alias attatched to the collection_group"
