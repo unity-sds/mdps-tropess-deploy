@@ -124,6 +124,7 @@ class TropessDAGRunner(object):
                 "request_instance_type": REQUEST_INSTANCE_TYPE,
                 "request_storage": REQUEST_STORAGE,
                 "use_ecr": use_ecr,
+                "stac_auth_type":"UNITY",
             },
         }
 
