@@ -2,18 +2,17 @@ name: tropess-mdps-deploy
 channels:
 - conda-forge
 dependencies:
-# cwltool needs Python 3.10 or less
-- python<=3.10
-- cwltool
+- python
 - requests
 - boto3
 - pyyaml
 - dateparser
 - pip
 - pip:
+  - cwltool
   - dotenv
   - unity_sds_client
   - mdps-app-generator>=1.1.0
   # For the Python package, that uses the binary installed into Conda above
   - --extra-index-url https://artifactory.jpl.nasa.gov/artifactory/api/pypi/pypi-release-local/simple
-  - tropess-product-spec>=2.3.0
+  - tropess-product-spec>=2.5.2
