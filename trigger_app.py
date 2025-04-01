@@ -34,7 +34,7 @@ from tropess_product_spec.schema import CollectionGroup
 REQUEST_INSTANCE_TYPE = "t3.medium"
 REQUEST_STORAGE = "10Gi"
 
-DAG_NAME="cwl_dag_modular"
+DEFAULT_DAG_NAME="cwl_dag_modular"
 
 REPO_BASE_DIR = os.path.realpath(os.path.dirname(__file__))
 
@@ -90,7 +90,7 @@ class TropessDAGRunner(object):
 
         return s
 
-    def trigger_dag(self, process_workflow, process_args, stac_json, use_ecr=True, trigger=False):
+    def trigger_dag(self, process_workflow, process_args, stac_json, use_ecr=True, use_stac_auth=True, trigger=False):
 
         # get airflow host,user,pwd from ENV variables
         if "AIRFLOW_HOST" in os.environ:
@@ -101,7 +101,9 @@ class TropessDAGRunner(object):
         airflow_username = os.getenv("AIRFLOW_USERNAME")
         airflow_password = os.getenv("AIRFLOW_PASSWORD")
 
-        url = os.path.join(airflow_host, f"api/v1/dags/{DAG_NAME}/dagRuns")
+        dag_name = os.getenv("AIRFLOW_DAG_NAME", DEFAULT_DAG_NAME)
+
+        url = os.path.join(airflow_host, f"api/v1/dags/{dag_name}/dagRuns")
 
         logger.info(f"Using Airflow API URL: {url}")
 
@@ -124,7 +126,7 @@ class TropessDAGRunner(object):
                 "request_instance_type": REQUEST_INSTANCE_TYPE,
                 "request_storage": REQUEST_STORAGE,
                 "use_ecr": use_ecr,
-                "stac_auth_type":"UNITY",
+                "unity_stac_auth_type": use_stac_auth,
             },
         }
 
@@ -254,7 +256,7 @@ class TropessDAGRunner(object):
         logger.info(f"Using STAC JSON: {stac_json_url}")
 
         # With verification done, trigger the Airflow run
-        self.trigger_dag(process_workflow_url, process_args, stac_json_url, use_ecr=True, trigger=trigger)
+        self.trigger_dag(process_workflow_url, process_args, stac_json_url, use_ecr=True, use_stac_auth=False, trigger=trigger)
 
     def _find_sensor_set(self, collection_group_obj, sensor_set_str):
         "Find a sensor set string via straight keyword or from an alias attatched to the collection_group"
@@ -285,7 +287,7 @@ class TropessDAGRunner(object):
         stac_query_result = data_manager.get_collection_data(Collection(collection_id), limit=limit, filter=query_filter, output_stac=True)
 
         if 'features' not in stac_query_result:
-            raise Exception(f"Error querying data catalog: {stac_query_result['message']}")
+            raise Exception(f"Error querying data catalog: {stac_query_result}")
 
         # Write out STAC file before further checking might exit program
         if stac_output_filename is not None:
@@ -312,7 +314,7 @@ class TropessDAGRunner(object):
 
         return stac_query_result['links'][0]['href']
 
-    def py_tropess(self, collection_group_keyword, sensor_set, processing_date, product_type, processing_species, muses_collection_version, granule_version, stage_in_output=None, trigger=False, **kwargs):
+    def py_tropess(self, collection_group_keyword, sensor_set, processing_date, product_type, processing_species, muses_collection_version, granule_version, stage_in_output_filename=None, trigger=False, **kwargs):
         
         # Verify the collection_group_keyword
         collection_group_obj = CollectionGroup.get_collection_group(collection_group_keyword)
@@ -332,21 +334,23 @@ class TropessDAGRunner(object):
         query_date = dateparser.parse(processing_date).strftime("%Y-%m-%d")
 
         # Get information on files we want to process
-        stac_query_result = self.query_data_catalog(mdps_collection_id, query_date, stage_in_output)
+        stac_query_result = self.query_data_catalog(mdps_collection_id, query_date, stage_in_output_filename)
 
         # Now construct arguments for DAG query
         process_args = {
             "product_type": product_type,
-            "processing_species": processing_species,
             "granule_version": granule_version,
         }
+        
+        # Only set if not a null or none value
+        if processing_species is not None and processing_species != "null":
+            process_args['processing_species'] = processing_species
         
         process_workflow_url = self._process_workflow_url("py_tropess")
         stac_json_url = self._catalog_query_url(stac_query_result)
 
         # With verification done, trigger the Airflow run
-        if trigger:
-            self.trigger_dag(process_workflow_url, process_args, stac_json_url, use_ecr=True)
+        self.trigger_dag(process_workflow_url, process_args, stac_json_url, use_ecr=True, use_stac_auth=True, trigger=trigger)
         
 def main():
 
