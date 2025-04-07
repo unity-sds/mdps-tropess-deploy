@@ -8,6 +8,7 @@ import subprocess
 from argparse import ArgumentParser
 
 import boto3
+from dotenv import load_dotenv
 import yaml
 
 from unity_app_generator import interface as build_interface
@@ -40,13 +41,16 @@ logger = logging.getLogger()
 
 class DeployApp(object):
 
-    def __init__(self, app_name, project_name, venue_name):
+    def __init__(self, app_name, env_config_file=None):
 
-        self._verify_project_venue_name(project_name, venue_name)
+        # Load environment variables from a .env file
+        load_dotenv(dotenv_path=env_config_file)
 
         self.app_name = app_name
-        self.project_name = project_name
-        self.venue_name = venue_name
+        self.project_name = os.environ.get("PROJECT", "unity")
+        self.venue_name = os.environ.get("VENUE", "ops")
+        
+        self._verify_project_venue_name(self.project_name, self.venue_name)
 
     def _verify_project_venue_name(self, project_name, venue_name):
         "Load MDPS venue name from AWS parameter store"
@@ -70,7 +74,16 @@ class DeployApp(object):
     def init_repo(self, source_repo):
         "Handle copying of Git repository from source location"
 
-        logger.info(f"Initializing {self.app_name} from {source_repo} for {self.project_name}/{self.venue_name}")
+        # Allow version tags for default repo
+        checkout_tag = None
+        if source_repo[0] == "@":
+            checkout_tag = source_repo[1:]
+            source_repo = SOURCE_REPOS[self.app_name]
+
+        if checkout_tag is not None:
+            logger.info(f"Initializing {self.app_name} from {source_repo} @ {checkout_tag} for {self.project_name}/{self.venue_name}")
+        else:
+            logger.info(f"Initializing {self.app_name} from {source_repo} for {self.project_name}/{self.venue_name}")
 
         # Clone repo into state dir
         checkout_dir = os.path.join(self.app_state_dir, "repo")
@@ -80,7 +93,7 @@ class DeployApp(object):
             logger.debug(f"Removing existing checkout dir {checkout_dir}")
             shutil.rmtree(checkout_dir)
 
-        build_interface.init(self.app_state_dir, source_repo, checkout_dir)
+        build_interface.init(self.app_state_dir, source_repo, checkout_dir, checkout=checkout_tag)
 
     def build_app(self, image_tag=None):
         "Build Docker image to be used for venue deployment"
@@ -142,19 +155,13 @@ def main():
 
     parser = ArgumentParser(description="Build TROPESS apps for deployment in MDPS")
 
-    parser.add_argument("project_name", 
-        help="MDPS project name for the deployment")
-    
-    parser.add_argument("venue_name", 
-        help="MDPS venue name for the deployment")
+    default_app_list = list(SOURCE_REPOS.keys())
+    parser.add_argument("app", nargs="*",
+        help=f"Applications to build other than default of all: {default_app_list}")
 
     for app_name, default_repo in SOURCE_REPOS.items():
         parser.add_argument(f"--{app_name}", default=default_repo,
-                            help=f"Location of {app_name} source repository other than default: {default_repo}")
-
-    default_app_list = list(SOURCE_REPOS.keys())
-    parser.add_argument("--app", action="append", default=None,
-        help=f"Applications to build other than default of all: {default_app_list}")
+                            help=f"Location of {app_name} source repository other than default: {default_repo}. Prefix a tag with @ to use a specific version at the default location.")
 
     parser.add_argument("-t", "--tag", dest="docker_tag", default=DEFAULT_DOCKER_IMAGE_TAG,
         help=f"Docker tag to use for images instead of default: {DEFAULT_DOCKER_IMAGE_TAG}")
@@ -172,13 +179,16 @@ def main():
     else:
         logging.basicConfig(level=logging.INFO)
 
-    if args.app is not None:
-        app_list = args.app
-    else:
+    if args.app is None or len(args.app) == 0:
         app_list = default_app_list
+    else:
+        app_list = args.app
 
     for app_name in app_list:
-        app_deploy = DeployApp(app_name, args.project_name, args.venue_name)
+        if app_name not in SOURCE_REPOS:
+            raise Exception(f"Unknown application: {app_name}")
+
+        app_deploy = DeployApp(app_name)
         app_deploy.init_repo(getattr(args, app_name))
         if not args.skip_build:
             app_deploy.build_app(args.docker_tag)
