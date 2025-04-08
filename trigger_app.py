@@ -90,7 +90,7 @@ class TropessDAGRunner(object):
 
         return s
 
-    def trigger_dag(self, process_workflow, process_args, stac_json, use_ecr=True, use_stac_auth=True, trigger=False):
+    def trigger_dag(self, process_workflow, run_id, process_args, stac_json, use_ecr=True, use_stac_auth=True, trigger=False):
 
         # get airflow host,user,pwd from ENV variables
         if "AIRFLOW_HOST" in os.environ:
@@ -118,6 +118,7 @@ class TropessDAGRunner(object):
         # data = {"logical_date": logical_date}
         # Example on how to pass DAG specific parameters
         data = {
+            "dag_run_id": run_id,
             "logical_date": logical_date,
             "conf": {
                 "process_args": json.dumps(process_args),
@@ -131,7 +132,7 @@ class TropessDAGRunner(object):
         }
 
         logger.debug("DAG parameters:")
-        logger.debug(pformat(data['conf'], indent=2))
+        logger.debug(pformat(data, indent=2))
         logger.debug("process_args from DAG parameters as one line:")
         logger.debug(data['conf']['process_args'])
 
@@ -256,7 +257,8 @@ class TropessDAGRunner(object):
         logger.info(f"Using STAC JSON: {stac_json_url}")
 
         # With verification done, trigger the Airflow run
-        self.trigger_dag(process_workflow_url, process_args, stac_json_url, use_ecr=True, use_stac_auth=False, trigger=trigger)
+        run_id = f"TROPESS-data_ingest-{collection_group_keyword}:{input_data_base_path}"
+        self.trigger_dag(process_workflow_url, run_id, process_args, stac_json_url, use_ecr=True, use_stac_auth=False, trigger=trigger)
 
     def _find_sensor_set(self, collection_group_obj, sensor_set_str):
         "Find a sensor set string via straight keyword or from an alias attatched to the collection_group"
@@ -349,8 +351,14 @@ class TropessDAGRunner(object):
         process_workflow_url = self._process_workflow_url("py_tropess")
         stac_json_url = self._catalog_query_url(stac_query_result)
 
+        # Unique identifier formed by inputs
+        run_id = f"TROPESS-py_tropess-{collection_group_keyword}-{sensor_set}-{processing_date}-{product_type}"
+        if processing_species is not None and processing_species != "null":
+            species_id = processing_species.replace(" ", "")
+            run_id += f"-{species_id}"
+
         # With verification done, trigger the Airflow run
-        self.trigger_dag(process_workflow_url, process_args, stac_json_url, use_ecr=True, use_stac_auth=True, trigger=trigger)
+        self.trigger_dag(process_workflow_url, run_id, process_args, stac_json_url, use_ecr=True, use_stac_auth=True, trigger=trigger)
         
 def main():
 
