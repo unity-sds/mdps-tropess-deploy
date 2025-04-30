@@ -9,10 +9,14 @@ usage() {
     exit 1
 }
 
-STAGE_IN_CWL="https://raw.githubusercontent.com/unity-sds/unity-data-services/refs/heads/develop/cwl/stage-in-unity/stage-in.cwl"
+STAGE_IN_CWL_REMOTE="https://raw.githubusercontent.com/unity-sds/unity-data-services/refs/heads/develop/cwl/stage-in-unity/stage-in.cwl"
+
+stage_in_cwl_local=$(mktemp)
+
+wget -O $stage_in_cwl_local "$STAGE_IN_CWL_REMOTE" 
 
 # unity-app-to-app-client-user-pool-client
-CLIENT_ID="7vehllplbone6p4usqgutqun35"
+CLIENT_ID="71894molftjtie4dvvkbjeard0"
 
 DEFAULT_DOWNLOAD_DIR="./stage_in_download"
 
@@ -29,6 +33,11 @@ if [ -z "$stac_json" ]; then
 fi
 shift
 
+# Read URL for downloading from JSON file
+if [ -f "$stac_json" ]; then
+    stac_json=$(jq -r '.links[0].href' $stac_json)
+fi
+
 download_dir="$1"
 if [ -z "$download_dir" ]; then
     echo "WARNINING: download_dir not provided, using: $DEFAULT_DOWNLOAD_DIR"
@@ -41,7 +50,9 @@ $use_podman_arg \
  --preserve-environment AWS_ACCESS_KEY_ID \
  --preserve-environment AWS_SECRET_ACCESS_KEY \
  --preserve-environment AWS_SESSION_TOKEN \
- $STAGE_IN_CWL \
+ $stage_in_cwl_local \
  --unity_client_id "$CLIENT_ID" \
  --stac_json "$stac_json" \
  --download_dir "$download_dir"
+
+ rm $stage_in_cwl_local
