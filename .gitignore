@@ -5,4 +5,4 @@ test/
 .app_state
 
 # Local environment variables
-.env
+.env*

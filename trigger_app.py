@@ -34,7 +34,7 @@ from tropess_product_spec.schema import CollectionGroup
 REQUEST_INSTANCE_TYPE = "t3.medium"
 REQUEST_STORAGE = "10Gi"
 
-DEFAULT_DAG_NAME="cwl_dag_modular"
+DEFAULT_DAG_NAME="cwl_dag_modular_unity"
 
 REPO_BASE_DIR = os.path.realpath(os.path.dirname(__file__))
 
@@ -90,26 +90,35 @@ class TropessDAGRunner(object):
 
         return s
 
+    def _airflow_api_url(self):
+        "Load Airflow API URL from SSM parameter store"
+
+        project_name = self.unity._session._project
+        venue_name = self.unity._session._venue
+
+        client = boto3.client('ssm')
+        response = client.get_parameter(Name=f"/{project_name}/{venue_name}/sps/processing/airflow/api_url")
+
+        return response['Parameter']['Value']
+
     def trigger_dag(self, process_workflow, run_id, process_args, stac_json, use_ecr=True, use_stac_auth=True, trigger=False):
 
         # get airflow host,user,pwd from ENV variables
-        if "AIRFLOW_HOST" in os.environ:
-            airflow_host = os.getenv("AIRFLOW_HOST")
+        if "AIRFLOW_API_URL" in os.environ:
+            airflow_api_url = os.getenv("AIRFLOW_API_URL")
         else:
-            airflow_host = self.unity._session.get_unity_href() + self.unity._session.get_venue_id() + "/sps/"
-
-        airflow_username = os.getenv("AIRFLOW_USERNAME")
-        airflow_password = os.getenv("AIRFLOW_PASSWORD")
+            airflow_api_url = self._airflow_api_url()
 
         dag_name = os.getenv("AIRFLOW_DAG_NAME", DEFAULT_DAG_NAME)
 
-        url = os.path.join(airflow_host, f"api/v1/dags/{dag_name}/dagRuns")
+        trigger_url = os.path.join(airflow_api_url, f"dags/{dag_name}/dagRuns")
 
-        logger.info(f"Using Airflow API URL: {url}")
+        logger.info(f"Using Airflow API URL: {trigger_url}")
 
         headers = {
             "Content-type": "application/json", 
             "Accept": "text/json",
+            "Authorization": "Bearer " + self.unity._session.get_auth().get_token(),
         }
 
         dt_now = datetime.now(timezone.utc)
@@ -137,10 +146,10 @@ class TropessDAGRunner(object):
         logger.debug(data['conf']['process_args'])
 
         if trigger:
-            logger.info(f"Triggering Airflow DAG at: {url}")
+            logger.info(f"Triggering Airflow DAG at: {trigger_url}")
 
             result = requests.post(
-                url, json=data, headers=headers, auth=HTTPBasicAuth(airflow_username, airflow_password),
+                trigger_url, json=data, headers=headers,
                 timeout=15,
             )
 
@@ -149,7 +158,7 @@ class TropessDAGRunner(object):
             logger.debug(pformat(result_json, indent=2))
 
             if result.status_code != 200:
-                raise Exception(f"Error triggering Airflow DAG at {url}: {result.text}")
+                raise Exception(f"Error triggering Airflow DAG at {trigger_url}: {result.text}")
         else:
             logger.info("Airflow DAG dry-run only")
 
