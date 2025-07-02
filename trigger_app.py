@@ -353,7 +353,7 @@ class TropessDAGRunner(object):
         mdps_project=self.unity._session._project
         mdps_venue=self.unity._session._venue
         mdps_collection_name = f'MUSES-{sensor_set_obj.short_name}-{collection_group_obj.short_name}'
-        mdps_collection_id = f"URN:NASA:UNITY:{mdps_project}:{mdps_venue}:{mdps_collection_name}___{muses_collection_version}"
+        mdps_collection_id = f"URN:NASA:UNITY:{mdps_project.upper()}:{mdps_venue.upper()}:{mdps_collection_name}___{muses_collection_version}"
 
         # Get consistent date string for DS query -> YYYY-MM-DD
         query_date = dateparser.parse(processing_date).strftime("%Y-%m-%d")
