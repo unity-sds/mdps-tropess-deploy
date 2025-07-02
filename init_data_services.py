@@ -16,6 +16,7 @@ from unity_sds_client.unity_services import UnityServices as services
 from unity_sds_client.resources.collection import Collection
 
 # TROPESS packages
+from tropess_product_spec.schema import CollectionGroup
 from tropess_product_spec.config import collection_group_combinations
 from tropess_product_spec.product_naming import format_short_name
 
@@ -103,11 +104,18 @@ class TropessDataInit(object):
     # %%%%%%%%%%%%%%%%%%%%%%%
     # Register collection ids
     
-    def collection_group_short_names(self, collection_group_keyword):
+    def collection_group_short_names(self, collection_group):
         "Return all TROPESS short names, aka the DAAC collection ID for a collection group"
 
         short_name_list = []
-        for group_kw, product_kw, sensor_set_kw, species_kw in collection_group_combinations(collection_groups_filter=[collection_group_keyword]):
+
+        # Create MUSES shortname list
+        for sensor_set in collection_group.sensor_sets.values():
+            short_name = f'MUSES-{sensor_set.short_name}-{collection_group.short_name}'
+            short_name_list.append(short_name)
+
+        # Create TROPESS shortname list
+        for group_kw, product_kw, sensor_set_kw, species_kw in collection_group_combinations(collection_groups_filter=[collection_group.keyword]):
             short_name = format_short_name(group_kw, product_kw, sensor_set_kw, species_kw)
             short_name_list.append(short_name)
 
@@ -152,7 +160,9 @@ class TropessDataInit(object):
 
     def register_collection_ids(self, collection_group_keyword, granule_version, do_update=False, check_update=False, **kwargs):
 
-        tropess_short_names = self.collection_group_short_names(collection_group_keyword)
+        collection_group_obj = CollectionGroup.get_collection_group(collection_group_keyword)
+
+        tropess_short_names = self.collection_group_short_names(collection_group_obj)
         mdps_collection_ids = list(self.mdps_collection_ids(tropess_short_names, granule_version))
 
         if do_update:
