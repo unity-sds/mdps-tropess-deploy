@@ -25,6 +25,7 @@ from unity_sds_client.resources.collection import Collection
 import boto3
 from dotenv import load_dotenv
 import dateparser
+import yaml
 
 # Import both because the first initiates begining in the config
 import tropess_product_spec.config as tps_config
@@ -34,7 +35,7 @@ from tropess_product_spec.schema import CollectionGroup
 REQUEST_INSTANCE_TYPE = "t3.medium"
 REQUEST_STORAGE = "10Gi"
 
-DEFAULT_DAG_NAME="cwl_dag_modular_unity"
+DEFAULT_DAG_NAME="cwl_dag_modular"
 
 REPO_BASE_DIR = os.path.realpath(os.path.dirname(__file__))
 
@@ -153,12 +154,13 @@ class TropessDAGRunner(object):
                 timeout=15,
             )
 
+            if result.status_code != 200:
+                raise Exception(f"Error triggering Airflow DAG at {trigger_url}: {result.text}")
+
             result_json = result.json()
             logger.debug("Response JSON:")
             logger.debug(pformat(result_json, indent=2))
 
-            if result.status_code != 200:
-                raise Exception(f"Error triggering Airflow DAG at {trigger_url}: {result.text}")
         else:
             logger.info("Airflow DAG dry-run only")
 
@@ -206,6 +208,16 @@ class TropessDAGRunner(object):
         if response := requests.get(url).status_code != 200:
             raise Exception(f"Invalid file url: {url}, get failed with status code: {response.status_code}")
 
+    def _extract_cwl_docker_version(self, cwl_workflow_filename):
+
+        with open(cwl_workflow_filename, "r") as yaml_output:
+            yaml_contents = yaml.safe_load(yaml_output)
+
+        docker_url = yaml_contents['requirements']['DockerRequirement']['dockerPull']
+
+        _, docker_version = docker_url.split(':', 2)
+
+        return docker_version
 
     def _process_workflow_url(self, subcommand_name):
 
@@ -217,8 +229,11 @@ class TropessDAGRunner(object):
             venue=self.unity._session._venue,
         ) 
 
-        if not os.path.exists(os.path.join(REPO_BASE_DIR, process_workflow_filename)):
+        cwl_workflow_filename = os.path.join(REPO_BASE_DIR, process_workflow_filename)
+        if not os.path.exists(cwl_workflow_filename):
             raise Exception(f"Could not find process CWL file: {process_workflow_filename}")
+
+        docker_version = self._extract_cwl_docker_version(cwl_workflow_filename)
         
         process_workflow_url = os.path.join(DEPLOY_FILES_BASE_URL, process_workflow_filename)
 
@@ -229,10 +244,9 @@ class TropessDAGRunner(object):
 
         logger.info(f"Using worflow CWL: {process_workflow_url}")        
 
-        return process_workflow_url
+        return process_workflow_url, docker_version
 
     def data_ingest(self, input_data_ingest_path, collection_group_keyword, input_data_base_path, collection_version, trigger=False,  **kwargs):
-
         assert(input_data_ingest_path is not None)
         assert(collection_group_keyword is not None)
         assert(input_data_base_path is not None)
@@ -253,7 +267,7 @@ class TropessDAGRunner(object):
             "collection_version": collection_version,
         }
         
-        process_workflow_url = self._process_workflow_url("data_ingest")
+        process_workflow_url, docker_version = self._process_workflow_url("data_ingest")
 
         # Use the empty stac_json stored in the repo
         stac_json_url = os.path.join(
@@ -266,7 +280,7 @@ class TropessDAGRunner(object):
         logger.info(f"Using STAC JSON: {stac_json_url}")
 
         # With verification done, trigger the Airflow run
-        run_id = f"TROPESS-data_ingest-{collection_group_keyword}:{input_data_base_path}"
+        run_id = f"TROPESS-data_ingest_{docker_version}-{collection_group_keyword}:{input_data_ingest_path.replace("/", "-")}"
         self.trigger_dag(process_workflow_url, run_id, process_args, stac_json_url, use_ecr=True, use_stac_auth=False, trigger=trigger)
 
     def _find_sensor_set(self, collection_group_obj, sensor_set_str):
@@ -357,11 +371,11 @@ class TropessDAGRunner(object):
         if processing_species is not None and processing_species != "null":
             process_args['processing_species'] = processing_species
         
-        process_workflow_url = self._process_workflow_url("py_tropess")
+        process_workflow_url, docker_version = self._process_workflow_url("py_tropess")
         stac_json_url = self._catalog_query_url(stac_query_result)
 
         # Unique identifier formed by inputs
-        run_id = f"TROPESS-py_tropess-{collection_group_keyword}-{sensor_set}-{processing_date}-{product_type}"
+        run_id = f"TROPESS-py_tropess_{docker_version}-{collection_group_keyword}-{sensor_set}-{processing_date}-{product_type}"
         if processing_species is not None and processing_species != "null":
             species_id = processing_species.replace(" ", "")
             run_id += f"-{species_id}"
