@@ -134,7 +134,7 @@ class TropessDataInit(object):
         # Create a MDPS/Unity collection for each TROPESS product shortname in the collection group
         our_collection_ids = []
         for short_name in tropess_short_names:
-            collection_id = f"urn:nasa:unity:{self.mdps_project}:{self.mdps_venue}:{short_name}___{collection_version}"
+            collection_id = f"urn:nasa:unity:{self.mdps_project}:{self.mdps_venue}:".upper() + f"{short_name}___{collection_version}"
             our_collection_ids.append(collection_id)
  
         return our_collection_ids
@@ -227,10 +227,10 @@ class TropessDataInit(object):
 
         # Declare new custom metadata fields
         if do_update:
-            logger.info("Commiting custom metadata definition")
+            logger.info("Committing custom metadata definition")
             self.dataManager.define_custom_metadata(custom_metadata_fields)
         else:
-            logger.info("No custom metadata commited, dry run only")
+            logger.info("No custom metadata committed, dry run only")
 
     def register_daac_delivery(self, **kwargs):
         pass
@@ -254,7 +254,9 @@ class TropessDataInit(object):
             
         return response.json()
 
-    def add_archive_config(self, mdps_collection_id, daac_collection_id, daac_data_version, daac_sns_topic_arn, archiving_types=DEFAULT_ARCHIVING_TYPES):
+    def add_archive_config(self, mdps_collection_id, daac_collection_id, daac_data_version, daac_sns_topic_arn, 
+                           daac_role_arn, daac_role_session_name, daac_provider,
+                           archiving_types=DEFAULT_ARCHIVING_TYPES, do_update=False):
 
         # Hack an accessor until unity-sds-client supports this
         url = self.dataManager.endpoint + f"am-uds-dapa/collections/{mdps_collection_id}/archive"
@@ -264,21 +266,34 @@ class TropessDataInit(object):
             "daac_collection_id": daac_collection_id,
             "daac_data_version": daac_data_version,
             "daac_sns_topic_arn": daac_sns_topic_arn,
+            "daac_provider": daac_provider,
+            "daac_role_arn": daac_role_arn,
+            "daac_role_session_name": daac_role_session_name,
             "archiving_types": [{
                 "data_type": "text",
                 "file_extension": archiving_types,
             }]
         }
 
-        response = requests.put(url, headers={"Authorization": "Bearer " + token}, json=data)
-        
-        if response.status_code != 200:
-            if hasattr(response, "message"):
-                raise Exception("Error: " + response.message)
-            else:
-                raise Exception(f"Error: {response.json()}")
+        logger.info("Archive configuration:\n" + pformat(data, indent=2))
+
+        if do_update:
+            logger.info("Committing archive configuration")
+
+            response = requests.put(url, headers={"Authorization": "Bearer " + token}, json=data)
             
-        return response.json()
+            if response.status_code != 200:
+                if hasattr(response, "message"):
+                    raise Exception("Error: " + response.message)
+                else:
+                    raise Exception(f"Error: {response.json()}")
+                
+            return response.json()
+        else:
+            logger.info("No archive configuration committed, dry run only")
+
+            return data
+
 
     def delete_archive_config(self, mdps_collection_id, daac_collection_id):
 
@@ -302,7 +317,9 @@ class TropessDataInit(object):
             
         return response.json()
 
-    def register_daac_archiving(self, collection_group_keyword, granule_version, sns_arn, do_update=False, delete=False, **kwargs):
+    def register_daac_archiving(self, collection_group_keyword, granule_version, sns_arn,  
+                                role_arn, role_session_name, provider,
+                                do_update=False, delete=False, **kwargs):
 
         collection_group_obj = CollectionGroup.get_collection_group(collection_group_keyword)
 
@@ -314,10 +331,9 @@ class TropessDataInit(object):
                 logger.info(f"Deleting DAAC archive id: {daac_id} to {mdps_id}")
                 self.delete_archive_config(mdps_id, daac_id)
  
-        if do_update:
-            for daac_id, mdps_id in zip(tropess_short_names, mdps_collection_ids):
-                logger.info(f"Registering DAAC archive id: {daac_id} to {mdps_id}")
-                self.add_archive_config(mdps_id, daac_id, granule_version, sns_arn)
+        for daac_id, mdps_id in zip(tropess_short_names, mdps_collection_ids):
+            logger.info(f"Registering DAAC archive id: {daac_id} to {mdps_id}")
+            self.add_archive_config(mdps_id, daac_id, granule_version, sns_arn, role_arn, role_session_name, provider, do_update=do_update)
 
         for collection_id in mdps_collection_ids:
             archive_cfg = self.get_archive_config(collection_id)
@@ -377,8 +393,17 @@ def main():
     parser_archive.add_argument("-a", "--sns_arn", dest="sns_arn", required=True,
         help="DAAC SNS topic ARN where delivery messages are sent")
 
+    parser_archive.add_argument("-r", "--role_arn", dest="role_arn", required=True,
+        help="Assume IAM roles from GES DISC Cumulus ARN")
+
+    parser_archive.add_argument("-s", "--role_session_name", dest="role_session_name", default="tropess_request",
+        help="Assume IAM roles from GES DISC session name, default: tropess_request")
+
+    parser_archive.add_argument("-p", "--provider", dest="provider", default="tropess_cloud",
+        help="Defines the data source for the Cumulus system, default: tropess_cloud")
+
     parser_archive.add_argument("--delete", dest="delete", action="store_true", default=False,
-        help="Delete DAAC archive configs before creating, or delete configs if not commiting updates")
+        help="Delete DAAC archive configs before creating, or delete configs if not committing updates")
 
     parser_archive.set_defaults(func=TropessDataInit.register_daac_archiving)
      
