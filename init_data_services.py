@@ -109,14 +109,21 @@ class TropessDataInit(object):
 
         short_name_list = []
 
-        # Create MUSES shortname list
-        for sensor_set in collection_group.sensor_sets.values():
-            short_name = f'MUSES-{sensor_set.short_name}-{collection_group.short_name}'
-            short_name_list.append(short_name)
-
         # Create TROPESS shortname list
         for group_kw, product_kw, sensor_set_kw, species_kw in collection_group_combinations(collection_groups_filter=[collection_group.keyword]):
             short_name = format_short_name(group_kw, product_kw, sensor_set_kw, species_kw)
+            short_name_list.append(short_name)
+
+        return short_name_list
+
+    def muses_short_names(self, collection_group):
+        "Return all TROPESS short names, aka the DAAC collection ID for a collection group"
+
+        short_name_list = []
+
+        # Create MUSES shortname list
+        for sensor_set in collection_group.sensor_sets.values():
+            short_name = f'MUSES-{sensor_set.short_name}-{collection_group.short_name}'
             short_name_list.append(short_name)
 
         return short_name_list
@@ -158,12 +165,15 @@ class TropessDataInit(object):
             else:
                 logger.error(f"Collection id {collection_id} is not registered with MDPS")
 
-    def register_collection_ids(self, collection_group_keyword, granule_version, do_update=False, check_update=False, **kwargs):
+    def register_collection_ids(self, collection_group_keyword, granule_version, muses_collection_version, do_update=False, check_update=False, **kwargs):
 
         collection_group_obj = CollectionGroup.get_collection_group(collection_group_keyword)
 
         tropess_short_names = self.collection_group_short_names(collection_group_obj)
         mdps_collection_ids = list(self.mdps_collection_ids(tropess_short_names, granule_version))
+
+        muses_short_names = self.muses_short_names(collection_group_obj)
+        mdps_collection_ids += list(self.mdps_collection_ids(muses_short_names, muses_collection_version))
 
         if do_update:
             self.register_mdps_collection_ids(mdps_collection_ids)
@@ -229,7 +239,7 @@ class TropessDataInit(object):
     # DAAC Archiving
 
     def get_archive_config(self, collection_id):
-        "Returns archive configration for a collection id"
+        "Returns archive configuration for a collection id"
 
         # Hack an accessor until unity-sds-client supports this
         url = self.dataManager.endpoint + f"am-uds-dapa/collections/{collection_id}/archive"
@@ -283,7 +293,9 @@ class TropessDataInit(object):
         response = requests.delete(url, headers={"Authorization": "Bearer " + token}, json=data)
         
         if response.status_code != 200:
-            if hasattr(response, "message"):
+            if hasattr(response, "test"):
+                raise Exception("Error: " + response.text)
+            elif hasattr(response, "message"):
                 raise Exception("Error: " + response.message)
             else:
                 raise Exception(f"Error: {response.json()}")
@@ -292,7 +304,9 @@ class TropessDataInit(object):
 
     def register_daac_archiving(self, collection_group_keyword, granule_version, sns_arn, do_update=False, delete=False, **kwargs):
 
-        tropess_short_names = self.collection_group_short_names(collection_group_keyword)
+        collection_group_obj = CollectionGroup.get_collection_group(collection_group_keyword)
+
+        tropess_short_names = self.collection_group_short_names(collection_group_obj)
         mdps_collection_ids = list(self.mdps_collection_ids(tropess_short_names, granule_version))        
         
         if delete:
@@ -333,6 +347,9 @@ def main():
 
     parser_register.add_argument("-v", "--tropess_version", dest="granule_version", required=True,
         help="Granule version for the collection ID being delivered to the DAAC")
+    
+    parser_register.add_argument("--muses_version", dest="muses_collection_version", required=False,
+        help="Collection version for the MUSES data being processed", default="1")
 
     parser_register.add_argument("--check", dest="check_update", action="store_true", default=False,
         help="Check that generated MDPS collection ids are registered")
