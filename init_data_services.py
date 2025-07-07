@@ -270,7 +270,7 @@ class TropessDataInit(object):
             "daac_role_arn": daac_role_arn,
             "daac_role_session_name": daac_role_session_name,
             "archiving_types": [{
-                "data_type": "text",
+                "data_type": "data",
                 "file_extension": archiving_types,
             }]
         }
