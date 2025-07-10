@@ -6,3 +6,8 @@ test/
 
 # Local environment variables
 .env*
+
+# Python temporaries
+/build/
+*.egg-info/
+__pycache__/

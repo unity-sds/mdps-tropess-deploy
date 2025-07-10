@@ -22,6 +22,8 @@ from tropess_product_spec.product_naming import format_short_name
 
 from dotenv import load_dotenv
 
+from ..mdps.api import API_Tool
+
 # metadata used within the MDPS data store for TROPESS products
 CUSTOM_METADATA_DEF = {
     "tag": {
@@ -75,32 +77,7 @@ DEFAULT_ARCHIVING_TYPES = [ ".nc" ]
 
 logger = logging.getLogger()
 
-class TropessDataInit(object):
-
-    def __init__(self, env_config_file=None, **kwargs):
-
-        # Load environment variables from a .env file
-        load_dotenv(dotenv_path=env_config_file)
-
-        self.mdps_project = os.environ.get("PROJECT", "unity")
-        self.mdps_venue = os.environ.get("VENUE", "ops")
-        self.mdps_env = os.environ.get("ENVIRONMENT", "PROD")
-
-        self.unity = self.login_unity()
-        self.dataManager = self.unity.client(services.DATA_SERVICE)
-
-    def login_unity(self):
-        "Initialize unity-sds-client"
-
-        logger.info(f"Logging into Unity/MDPS with project = {self.mdps_project}, venue = {self.mdps_venue}, environment = {self.mdps_env}")
-
-        env = UnityEnvironments[self.mdps_env]
-        s = Unity(environment=env)
-        s.set_project(self.mdps_project)
-        s.set_venue(self.mdps_venue)
-
-        return s
-
+class TropessDataInit(API_Tool):
     # %%%%%%%%%%%%%%%%%%%%%%%
     # Register collection ids
     

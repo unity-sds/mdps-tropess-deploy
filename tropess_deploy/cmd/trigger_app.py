@@ -32,6 +32,8 @@ import tropess_product_spec.config as tps_config
 from tropess_product_spec.config import collection_groups
 from tropess_product_spec.schema import CollectionGroup
 
+from ..mdps.api import API_Tool
+
 REQUEST_INSTANCE_TYPE = "t3.medium"
 REQUEST_STORAGE = "10Gi"
 
@@ -67,29 +69,7 @@ def read_job_file(sub_command):
     with open(param_filename, "r") as param_file:
         return json.load(param_file)
 
-class TropessDAGRunner(object):
-
-    def __init__(self, env_config_file=None, **kwargs):
-
-        # Load environment variables from a .env file
-        load_dotenv(dotenv_path=env_config_file)
-
-        self.unity = self.login_unity()
-
-    def login_unity(self):
-
-        mdps_project = os.environ.get("PROJECT", "unity")
-        mdps_venue = os.environ.get("VENUE", "ops")
-        mdps_env = os.environ.get("ENVIRONMENT", "PROD")
-
-        logger.info(f"Logging into Unity/MDPS with project = {mdps_project}, venue = {mdps_venue}, environment = {mdps_env}")
-
-        env = UnityEnvironments[mdps_env]
-        s = Unity(environment=env)
-        s.set_project(mdps_project)
-        s.set_venue(mdps_venue)
-
-        return s
+class TropessDAGRunner(API_Tool):
 
     def _airflow_api_url(self):
         "Load Airflow API URL from SSM parameter store"
