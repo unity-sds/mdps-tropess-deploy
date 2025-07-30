@@ -9,37 +9,28 @@ import json
 import argparse
 
 from datetime import datetime, timezone
-from pprint import pprint, pformat
+from pprint import pformat
 
 import logging
 
 import requests
-from requests.auth import HTTPBasicAuth
 from urllib.parse import urlparse
 
-from unity_sds_client.unity import Unity
-from unity_sds_client.unity import UnityEnvironments
-from unity_sds_client.unity_services import UnityServices as services
 from unity_sds_client.resources.collection import Collection
 
 import boto3
-from dotenv import load_dotenv
-import dateparser
 import yaml
 
-# Import both because the first initiates begining in the config
+# Import both because the first initiates beginning in the config
 import tropess_product_spec.config as tps_config
-from tropess_product_spec.config import collection_groups
 from tropess_product_spec.schema import CollectionGroup
 
-from ..mdps.api import API_Tool
+from ..data.tool import DataTool
 
 REQUEST_INSTANCE_TYPE = "t3.medium"
 REQUEST_STORAGE = "10Gi"
 
 DEFAULT_DAG_NAME="cwl_dag_modular"
-
-REPO_BASE_DIR = os.path.realpath(os.path.dirname(__file__))
 
 logger = logging.getLogger()
 
@@ -63,13 +54,19 @@ CWL_WORKFLOW_FILENAME = "{subcommand_dir}/process-{project}-{venue}.cwl"
 # For verification of S3 URL
 EXPECTED_INGEST_SUBDIRS = ["L2_Products", "L2_Products_Lite"]
 
-def read_job_file(sub_command):
-    param_filename = os.path.join(REPO_BASE_DIR, DEFAULT_JOB_PARAMETER_FILE[sub_command])
+def read_job_file(sub_command, deploy_base_dir):
+    param_filename = os.path.join(deploy_base_dir, DEFAULT_JOB_PARAMETER_FILE[sub_command])
 
     with open(param_filename, "r") as param_file:
         return json.load(param_file)
 
-class TropessDAGRunner(API_Tool):
+class TropessDAGRunner(DataTool):
+
+    def __init__(self, deploy_base_dir=None, *vargs, **kwargs):
+        super().__init__(*vargs, **kwargs)
+
+        assert deploy_base_dir is not None
+        self.deploy_base_dir = deploy_base_dir
 
     def _airflow_api_url(self):
         "Load Airflow API URL from SSM parameter store"
@@ -209,7 +206,7 @@ class TropessDAGRunner(API_Tool):
             venue=self.unity._session._venue,
         ) 
 
-        cwl_workflow_filename = os.path.join(REPO_BASE_DIR, process_workflow_filename)
+        cwl_workflow_filename = os.path.join(self.deploy_base_dir, process_workflow_filename)
         if not os.path.exists(cwl_workflow_filename):
             raise Exception(f"Could not find process CWL file: {process_workflow_filename}")
 
@@ -235,11 +232,6 @@ class TropessDAGRunner(API_Tool):
         # Verify the S3 path is accessible
         self._verify_s3_path(input_data_base_path, input_data_ingest_path)
 
-        # Verify the collection_group_keyword
-        collection_group_obj = CollectionGroup.get_collection_group(collection_group_keyword)
-        if collection_group_obj is None:
-            raise Exception(f"Invalid collection_group_keyword: {collection_group_keyword}")
-        
         process_args = {
             "input_data_ingest_path": input_data_ingest_path,
             "collection_group_keyword": collection_group_keyword,
@@ -263,42 +255,14 @@ class TropessDAGRunner(API_Tool):
         run_id = f"TROPESS-data_ingest_{docker_version}-{collection_group_keyword}:{input_data_ingest_path.replace("/", "-")}"
         self.trigger_dag(process_workflow_url, run_id, process_args, stac_json_url, use_ecr=True, use_stac_auth=False, trigger=trigger)
 
-    def _find_sensor_set(self, collection_group_obj, sensor_set_str):
-        "Find a sensor set string via straight keyword or from an alias attatched to the collection_group"
+    def query_input_data(self, collection_group, sensor_set_str, muses_collection_version, processing_date, stac_output_filename=None, limit=10000):
 
-        # Sensor Set object from keyword
-        sensor_set_obj = tps_config.sensor_sets.get(sensor_set_str, None)
+        muses_collection_ids = self.muses_collection_ids(collection_group, muses_collection_version, sensor_set_str)
+
+        if len(muses_collection_ids) > 1:
+            raise Exception(f"Multiple sensor sets for the {collection_group.keyword} collection group, add sensor_set to argument to filter")
         
-        # A collection group has a set of sensor sets that are valid, the mappings are mapped by the string used for the directory structure
-        # Try the string with this alias
-        if sensor_set_obj is None:
-            sensor_set_mapping = collection_group_obj.sensor_set_mappings.get(sensor_set_str, None)
-            if sensor_set_mapping is not None:
-                sensor_set_obj = sensor_set_mapping.sensor_set
-        
-        if sensor_set_obj is None:
-            raise Exception(f'Could not determine sensor set from string: "{sensor_set_str}"')
-
-        return sensor_set_obj
-
-    def query_data_catalog(self, collection_id, processing_date, stac_output_filename=None, limit=10000):
-
-        logger.info(f"Searching data catalog for MUSES data for collection {collection_id} on date {processing_date}")
-
-        query_filter = f"processing_datetime='{processing_date}'"
-
-        data_manager = self.unity.client(services.DATA_SERVICE)
-
-        stac_query_result = data_manager.get_collection_data(Collection(collection_id), limit=limit, filter=query_filter, output_stac=True)
-
-        if 'features' not in stac_query_result:
-            raise Exception(f"Error querying data catalog: {stac_query_result}")
-
-        # Write out STAC file before further checking might exit program
-        if stac_output_filename is not None:
-            logger.info(f"Writing STAC result to: {stac_output_filename}")
-            with open(stac_output_filename, "w") as stage_in_file:
-                json.dump(stac_query_result, stage_in_file)
+        stac_query_result = super().query_data_catalog(muses_collection_ids[0], processing_date, stac_output_filename=stac_output_filename)
 
         # Load a list of files found in the STAC results for verification purposes
         nc_files = []
@@ -312,34 +276,12 @@ class TropessDAGRunner(API_Tool):
         for fn in nc_files:
             logger.info(f" - {fn}")
 
-        return stac_query_result
-
-    def _catalog_query_url(self, stac_query_result):
-        "URL to the data catalog query"
-
         return stac_query_result['links'][0]['href']
 
-    def py_tropess(self, collection_group_keyword, sensor_set, processing_date, product_type, processing_species, muses_collection_version, granule_version, stage_in_output_filename=None, trigger=False, **kwargs):
+    def py_tropess(self, collection_group, processing_date, product_type, processing_species, muses_collection_version, granule_version, sensor_set_str=None, stage_in_output_filename=None, trigger=False, **kwargs):
         
-        # Verify the collection_group_keyword
-        collection_group_obj = CollectionGroup.get_collection_group(collection_group_keyword)
-        if collection_group_obj is None:
-            raise Exception(f"Invalid collection_group_keyword: {collection_group_keyword}")
-
-        # Get sensor_set object from string
-        sensor_set_obj = self._find_sensor_set(collection_group_obj, sensor_set)
-
-        # Generate collection ID for data services query
-        mdps_project=self.unity._session._project
-        mdps_venue=self.unity._session._venue
-        mdps_collection_name = f'MUSES-{sensor_set_obj.short_name}-{collection_group_obj.short_name}'
-        mdps_collection_id = f"URN:NASA:UNITY:{mdps_project.upper()}:{mdps_venue.upper()}:{mdps_collection_name}___{muses_collection_version}"
-
-        # Get consistent date string for DS query -> YYYY-MM-DD
-        query_date = dateparser.parse(processing_date).strftime("%Y-%m-%d")
-
         # Get information on files we want to process
-        stac_query_result = self.query_data_catalog(mdps_collection_id, query_date, stage_in_output_filename)
+        stac_json_url = self.query_input_data(collection_group, sensor_set_str, muses_collection_version, processing_date, stage_in_output_filename)
 
         # Now construct arguments for DAG query
         process_args = {
@@ -352,10 +294,9 @@ class TropessDAGRunner(API_Tool):
             process_args['processing_species'] = processing_species
         
         process_workflow_url, docker_version = self._process_workflow_url("py_tropess")
-        stac_json_url = self._catalog_query_url(stac_query_result)
 
         # Unique identifier formed by inputs
-        run_id = f"TROPESS-py_tropess_{docker_version}-{collection_group_keyword}-{sensor_set}-{processing_date}-{product_type}"
+        run_id = f"TROPESS-py_tropess_{docker_version}-{collection_group.keyword}-{sensor_set_str}-{processing_date}-{product_type}"
         if processing_species is not None and processing_species != "null":
             species_id = processing_species.replace(" ", "")
             run_id += f"-{species_id}"
@@ -372,6 +313,9 @@ def main():
 
     parser.add_argument("--trigger", action="store_true", default=False,
         help="Unless specified the Airflow is not trigger, instead a dry run is done")
+
+    parser.add_argument("--deployment_dir", dest="deploy_base_dir", default=os.curdir,
+        help="Location where CWL artifacts are deployed")
 
     subparsers = parser.add_subparsers(required=True, dest='subparser_name')
 
@@ -401,14 +345,14 @@ def main():
     parser_pyt.add_argument("-c", "--collection_keyword", dest="collection_group_keyword", required=True,
         help="Keyword of the collection group representing the data being processed")
 
-    parser_pyt.add_argument("-s", "--sensor_set", dest="sensor_set", required=True,
-        help="Sensor set for MUSES data to processed into TROPESS products")
-
     parser_pyt.add_argument("-d", "--date", dest="processing_date", required=True,
         help="Calendar date for the MUSES data to processed into TROPESS products")
 
     parser_pyt.add_argument("-p", "--product", dest="product_type", required=True,
         help="The type of TROPESS product to create, ie summary/standard/full")
+    
+    parser_pyt.add_argument("-s", "--sensor_set", dest="sensor_set_str", default=None,
+        help="Sensor set for MUSES data to processed into TROPESS products, only required when a collection group has multiple sensor sets")
 
     parser_pyt.add_argument("--species", dest="processing_species", required=False,
         help="Comma seperated list of species to generate other than all valid ones")
@@ -436,8 +380,14 @@ def main():
 
     dag_trigger = TropessDAGRunner(**args_dict)
 
-    command_args = read_job_file(args.subparser_name)
+    command_args = read_job_file(args.subparser_name, args.deploy_base_dir)
     command_args.update({ k:v for k,v in args_dict.items() if v is not None})
+
+    # Find collection group object from keyword name
+    collection_group_obj = CollectionGroup.get_collection_group(args_dict['collection_group_keyword'])
+    if collection_group_obj is None:
+        raise Exception(f"Invalid collection_group_keyword: {args_dict['collection_group_keyword']}")
+    command_args['collection_group'] = collection_group_obj 
 
     args.func(dag_trigger, **command_args)
 

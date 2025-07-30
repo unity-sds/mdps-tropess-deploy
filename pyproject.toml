@@ -19,3 +19,4 @@ optional-dependencies.docs = {file = ["requirements_docs.txt"]}
 build_applications = "tropess_deploy.cmd.build_applications:main"
 init_data_services = "tropess_deploy.cmd.init_data_services:main"
 trigger_app = "tropess_deploy.cmd.trigger_app:main"
+query_data = "tropess_deploy.cmd.query_data:main"

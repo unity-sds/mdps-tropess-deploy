@@ -8,12 +8,11 @@ import subprocess
 from argparse import ArgumentParser
 
 import boto3
-from dotenv import load_dotenv
 import yaml
 
 from unity_app_generator import interface as build_interface
 
-from ..mdps.api import API_Tool
+from ..mdps.tool import API_Tool
 
 # Deploy artfacts back to this repo
 DEPLOY_BASE_DIR = os.path.realpath(os.path.dirname(__file__))
@@ -42,6 +41,12 @@ EXAMPLE_JOB_INPUT_FILENAME = "example_job_input.json"
 logger = logging.getLogger()
 
 class DeployApp(API_Tool):
+
+    def __init__(self, deploy_base_dir=None, **vargs, **kwargs):
+        super().__init__(*vargs, **kwargs)
+
+        assert deploy_base_dir is not None
+        self.deploy_base_dir = deploy_base_dir
 
     def __init__(self, app_name, env_config_file=None, **kwargs):
         super().__init__(env_config_file=env_config_file)
@@ -166,6 +171,9 @@ def main():
     
     parser.add_argument("--skip-build", action="store_true",
         help="Skip Dockerfile build if has been built with previous execution of this program")
+
+    parser.add_argument("--deployment_dir", dest="deploy_base_dir", default=os.curdir,
+        help="Location where CWL artifacts are deployed")
 
     parser.add_argument("--verbose", "-v", action="store_true", default=False,
         help=f"Enable verbose logging")

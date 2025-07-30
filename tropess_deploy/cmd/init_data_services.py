@@ -10,19 +10,13 @@ from pprint import pformat
 
 import argparse
 
-from unity_sds_client.unity import Unity
-from unity_sds_client.unity import UnityEnvironments
-from unity_sds_client.unity_services import UnityServices as services
 from unity_sds_client.resources.collection import Collection
 
 # TROPESS packages
 from tropess_product_spec.schema import CollectionGroup
-from tropess_product_spec.config import collection_group_combinations
-from tropess_product_spec.product_naming import format_short_name
 
-from dotenv import load_dotenv
 
-from ..mdps.api import API_Tool
+from ..data.tool import DataTool
 
 # metadata used within the MDPS data store for TROPESS products
 CUSTOM_METADATA_DEF = {
@@ -77,44 +71,9 @@ DEFAULT_ARCHIVING_TYPES = [ ".nc" ]
 
 logger = logging.getLogger()
 
-class TropessDataInit(API_Tool):
+class TropessDataInit(DataTool):
     # %%%%%%%%%%%%%%%%%%%%%%%
     # Register collection ids
-    
-    def collection_group_short_names(self, collection_group):
-        "Return all TROPESS short names, aka the DAAC collection ID for a collection group"
-
-        short_name_list = []
-
-        # Create TROPESS shortname list
-        for group_kw, product_kw, sensor_set_kw, species_kw in collection_group_combinations(collection_groups_filter=[collection_group.keyword]):
-            short_name = format_short_name(group_kw, product_kw, sensor_set_kw, species_kw)
-            short_name_list.append(short_name)
-
-        return short_name_list
-
-    def muses_short_names(self, collection_group):
-        "Return all TROPESS short names, aka the DAAC collection ID for a collection group"
-
-        short_name_list = []
-
-        # Create MUSES shortname list
-        for sensor_set in collection_group.sensor_sets.values():
-            short_name = f'MUSES-{sensor_set.short_name}-{collection_group.short_name}'
-            short_name_list.append(short_name)
-
-        return short_name_list
-
-    def mdps_collection_ids(self, tropess_short_names, collection_version):
-        "Generate MDPS collection IDs from TROPESS short names"
-    
-        # Create a MDPS/Unity collection for each TROPESS product shortname in the collection group
-        our_collection_ids = []
-        for short_name in tropess_short_names:
-            collection_id = f"urn:nasa:unity:{self.mdps_project}:{self.mdps_venue}:".upper() + f"{short_name}___{collection_version}"
-            our_collection_ids.append(collection_id)
- 
-        return our_collection_ids
     
     def register_mdps_collection_ids(self, mdps_collection_ids):
         "Register MDPS collection IDs with data services"
@@ -122,7 +81,7 @@ class TropessDataInit(API_Tool):
         # This is an asynchronous operation, so there may be a delay in the request for a collection creation and when it shows up in the response.
         for mdps_collection_id in mdps_collection_ids:
             logger.info(f"Registering collection id: {mdps_collection_id}")
-            self.dataManager.create_collection(Collection(mdps_collection_id))
+            self.data_manager.create_collection(Collection(mdps_collection_id))
 
         logger.info(f"{len(mdps_collection_ids)} collection ids requested")
 
@@ -133,7 +92,7 @@ class TropessDataInit(API_Tool):
             return
 
         mdps_collection_ids = []
-        for c in self.dataManager.get_collections(limit=1e4):
+        for c in self.data_manager.get_collections(limit=1e4):
             mdps_collection_ids.append(c.collection_id)
         
         for collection_id in our_collection_ids:
@@ -169,9 +128,9 @@ class TropessDataInit(API_Tool):
 
         # Hack an accessor until unity-sds-client supports this
         existing_metadata = {}
-        for c in self.dataManager.get_collections(limit=limit):
-            url = self.dataManager.endpoint + f"am-uds-dapa/collections/{c.collection_id}/variables"
-            token = self.dataManager._session.get_auth().get_token()
+        for c in self.data_manager.get_collections(limit=limit):
+            url = self.data_manager.endpoint + f"am-uds-dapa/collections/{c.collection_id}/variables"
+            token = self.data_manager._session.get_auth().get_token()
             response = requests.get(url, headers={"Authorization": "Bearer " + token})
                 
             if response.status_code != 200:
@@ -205,7 +164,7 @@ class TropessDataInit(API_Tool):
         # Declare new custom metadata fields
         if do_update:
             logger.info("Committing custom metadata definition")
-            self.dataManager.define_custom_metadata(custom_metadata_fields)
+            self.data_manager.define_custom_metadata(custom_metadata_fields)
         else:
             logger.info("No custom metadata committed, dry run only")
 
@@ -219,8 +178,8 @@ class TropessDataInit(API_Tool):
         "Returns archive configuration for a collection id"
 
         # Hack an accessor until unity-sds-client supports this
-        url = self.dataManager.endpoint + f"am-uds-dapa/collections/{collection_id}/archive"
-        token = self.dataManager._session.get_auth().get_token()
+        url = self.data_manager.endpoint + f"am-uds-dapa/collections/{collection_id}/archive"
+        token = self.data_manager._session.get_auth().get_token()
         response = requests.get(url, headers={"Authorization": "Bearer " + token})
         
         if response.status_code != 200:
@@ -236,8 +195,8 @@ class TropessDataInit(API_Tool):
                            archiving_types=DEFAULT_ARCHIVING_TYPES, do_update=False):
 
         # Hack an accessor until unity-sds-client supports this
-        url = self.dataManager.endpoint + f"am-uds-dapa/collections/{mdps_collection_id}/archive"
-        token = self.dataManager._session.get_auth().get_token()
+        url = self.data_manager.endpoint + f"am-uds-dapa/collections/{mdps_collection_id}/archive"
+        token = self.data_manager._session.get_auth().get_token()
 
         data = {
             "daac_collection_id": daac_collection_id,
@@ -275,8 +234,8 @@ class TropessDataInit(API_Tool):
     def delete_archive_config(self, mdps_collection_id, daac_collection_id):
 
         # Hack an accessor until unity-sds-client supports this
-        url = self.dataManager.endpoint + f"am-uds-dapa/collections/{mdps_collection_id}/archive"
-        token = self.dataManager._session.get_auth().get_token()
+        url = self.data_manager.endpoint + f"am-uds-dapa/collections/{mdps_collection_id}/archive"
+        token = self.data_manager._session.get_auth().get_token()
 
         data = {
             "daac_collection_id": daac_collection_id,

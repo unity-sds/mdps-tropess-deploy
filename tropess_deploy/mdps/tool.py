@@ -1,13 +1,14 @@
 import os
+import logging
 
 from dotenv import load_dotenv
 
 from unity_sds_client.unity import Unity
 from unity_sds_client.unity import UnityEnvironments
-from unity_sds_client.unity_services import UnityServices as services
-from unity_sds_client.resources.collection import Collection
 
-class API_Tool(object):
+logger = logging.getLogger()
+
+class MdpsTool(object):
 
     def __init__(self, env_config_file=None, **kwargs):
 
@@ -19,7 +20,6 @@ class API_Tool(object):
         self.mdps_env = os.environ.get("ENVIRONMENT", "PROD")
 
         self.unity = self.login_unity()
-        self.dataManager = self.unity.client(services.DATA_SERVICE)
 
     def login_unity(self):
         "Initialize unity-sds-client"

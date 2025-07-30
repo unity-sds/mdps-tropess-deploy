@@ -104,13 +104,16 @@ class DataTool(MdpsTool):
         short_names = self.collection_group_short_names(collection_group, sensor_set=sensor_set_obj)
         return self.mdps_collection_ids(short_names, collection_version)
 
-    def query_data_catalog(self, mdps_collection_id, processing_date, stac_output_filename=None, limit=10000):
-        # Get consistent date string for DS query -> YYYY-MM-DD
-        processing_date = dateparser.parse(processing_date).strftime("%Y-%m-%d")
-
+    def query_data_catalog(self, mdps_collection_id, processing_date=None, stac_output_filename=None, limit=10000):
+        
         logger.info(f"Searching data catalog for MUSES data for collection {mdps_collection_id} on date {processing_date}")
 
-        query_filter = f"processing_datetime='{processing_date}'"
+        # Get consistent date string for DS query -> YYYY-MM-DD
+        if processing_date is not None:
+            processing_date = dateparser.parse(processing_date).strftime("%Y-%m-%d")
+            query_filter = f"processing_datetime='{processing_date}'"
+        else:
+            query_filter = None
 
         stac_query_result = self.data_manager.get_collection_data(Collection(mdps_collection_id), limit=limit, filter=query_filter, output_stac=True)
 
