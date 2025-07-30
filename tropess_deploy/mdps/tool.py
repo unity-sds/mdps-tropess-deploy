@@ -24,7 +24,7 @@ class MdpsTool(object):
     def login_unity(self):
         "Initialize unity-sds-client"
 
-        logger.info(f"Logging into Unity/MDPS with project = {self.mdps_project}, venue = {self.mdps_venue}, environment = {self.mdps_env}")
+        logger.debug(f"Logging into Unity/MDPS with project = {self.mdps_project}, venue = {self.mdps_venue}, environment = {self.mdps_env}")
 
         env = UnityEnvironments[self.mdps_env]
         s = Unity(environment=env)

@@ -29,7 +29,7 @@ class DataTool(MdpsTool):
 
         sensor_set_filter = None
         if sensor_set is not None:
-            sensor_set_filter = [sensor_set.keyword]
+            sensor_set_filter = [sensor_set.alias]
 
         # Create TROPESS shortname list
         for group_kw, product_kw, sensor_set_kw, species_kw in collection_group_combinations(collection_groups_filter=[collection_group.keyword], sensor_sets_filter=sensor_set_filter):
@@ -106,7 +106,7 @@ class DataTool(MdpsTool):
 
     def query_data_catalog(self, mdps_collection_id, processing_date=None, stac_output_filename=None, limit=10000):
         
-        logger.info(f"Searching data catalog for MUSES data for collection {mdps_collection_id} on date {processing_date}")
+        logger.debug(f"Searching data catalog for MUSES data for collection {mdps_collection_id} on date {processing_date}")
 
         # Get consistent date string for DS query -> YYYY-MM-DD
         if processing_date is not None:
@@ -114,6 +114,9 @@ class DataTool(MdpsTool):
             query_filter = f"processing_datetime='{processing_date}'"
         else:
             query_filter = None
+            
+        if query_filter is not None:
+            logger.debug(f"Query filter: {query_filter}")
 
         stac_query_result = self.data_manager.get_collection_data(Collection(mdps_collection_id), limit=limit, filter=query_filter, output_stac=True)
 
