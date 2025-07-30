@@ -88,7 +88,7 @@ class DataQuery(DataTool):
         for collection_id in self.data_catalog_collection_ids(prefix):
             logger.info(f"* {collection_id}")
 
-    def display_collection_overview(self, collection_id, stac):
+    def display_collection_overview(self, collection_id, stac, processing_date=None):
         
         table = PrettyTable(header=False)
         table.align = 'l'
@@ -100,6 +100,8 @@ class DataQuery(DataTool):
         table.add_row(["Short Name", self.get_constant_property(stac, "short_name")])
         table.add_row(["Long Name", self.get_constant_property(stac, "long_name")])
         table.add_row(["Product Version", self.get_constant_property(stac, "product_version")])
+        if processing_date is not None:
+            table.add_row(["Date", dateparser.parse(processing_date).strftime("%Y-%m-%d")])
 
         print(table)
 
@@ -116,14 +118,19 @@ class DataQuery(DataTool):
 
         print(table)
 
-    def display_date_details(self, stac):
+    def display_date_details(self, stac, collection_id):
 
         table = PrettyTable()
-        table.field_names = ["Date", "Species", "Num Files", "Is Archived"]
+        table.field_names = ["ID", "Species", "Num Files", "Is Archived"]
+
+        table.align["ID"] = "l"
+        table.align["Species"] = "l"
 
         for feat in stac['features']:
+            id = feat['id'].replace(collection_id, "").lstrip(":")
+
             table.add_row([
-                dateparser.parse(feat['properties']['processing_datetime']).strftime("%Y-%m-%d"),
+                id,
                 feat['properties']['species'],
                 len(feat['assets']),
                 self.feat_is_archived(feat),
@@ -142,12 +149,12 @@ class DataQuery(DataTool):
                 continue
 
             print("")
-            self.display_collection_overview(collection_id, stac)
+            self.display_collection_overview(collection_id, stac, processing_date)
 
             if processing_date is None:
                 self.display_dates(stac)
             else:
-                self.display_date_details(stac)
+                self.display_date_details(stac, collection_id)
 
     def download_collection_stac_files(self, muses_collection_ids, processing_date, stac_output_dir):
 
