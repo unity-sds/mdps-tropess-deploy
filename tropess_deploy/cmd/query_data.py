@@ -3,9 +3,9 @@
 """
 
 import os
-import re
 
 import dateparser
+from datetime import datetime
 
 import argparse
 
@@ -13,7 +13,7 @@ from prettytable import PrettyTable
 
 import logging
 
-import requests
+import json
 
 # Import both because the first initiates beginning in the config
 import tropess_product_spec.config as tps_config
@@ -72,16 +72,10 @@ class DataQuery(DataTool):
 
         return catalog_collection_ids
 
-    def data_catalog_query(self, collection_ids, processing_date, stac_output_dir=None, limit=10000):
+    def data_catalog_query(self, collection_ids, processing_date, limit=10000):
 
         for curr_id in collection_ids:
-            
-            # Optionally output each retrieved stac catalog to a file
-            stac_output_filename = None
-            if stac_output_dir is not None:
-                stac_output_filename = os.path.join(stac_output_dir, curr_id + ".stac")
-
-            yield super().query_data_catalog(curr_id, processing_date, stac_output_filename=stac_output_filename)
+            yield super().query_data_catalog(curr_id, processing_date)
 
     def display_collection_ids(self, prefix):
         
@@ -97,6 +91,7 @@ class DataQuery(DataTool):
         table.add_row(["Collection Group", self.get_constant_property(stac, "collection_group")])
         table.add_row(["Sensor Set", self.get_constant_property(stac, "sensor_set")])
         table.add_row(["Product Stage", self.get_constant_property(stac, "product_stage")])
+        table.add_row(["Product Type", self.get_constant_property(stac, "product_type")])
         table.add_row(["Short Name", self.get_constant_property(stac, "short_name")])
         table.add_row(["Long Name", self.get_constant_property(stac, "long_name")])
         table.add_row(["Product Version", self.get_constant_property(stac, "product_version")])
@@ -138,9 +133,9 @@ class DataQuery(DataTool):
 
         print(table)
 
-    def display_collection_summary(self, mdps_collection_ids, processing_date):
+    def display_collection_summary(self, mdps_collection_ids, stac_catalogs, processing_date):
 
-        for stac, collection_id in zip(self.data_catalog_query(mdps_collection_ids, processing_date), mdps_collection_ids):
+        for stac, collection_id in zip(stac_catalogs, mdps_collection_ids):
             if "features" not in stac:
                 continue
 
@@ -156,18 +151,49 @@ class DataQuery(DataTool):
             else:
                 self.display_date_details(stac, collection_id)
 
-    def download_collection_stac_files(self, muses_collection_ids, processing_date, stac_output_dir):
+    def write_stac_files(self, data_collection_ids, stac_catalogs, output_dir):
 
-        logger.info(f"Downloading STAC catalog files to {stac_output_dir}")
-        
-        if not os.path.exists(stac_output_dir):
-            logger.debug(f"Creating directory {stac_output_dir}")
-            os.makedirs(stac_output_dir)
+        for collection_id, stac in zip(data_collection_ids, stac_catalogs):
+            stac_output_filename = os.path.join(output_dir, collection_id + ".stac")
+            self.write_stac_catalog(stac, stac_output_filename)        
 
-        _ = list(self.data_catalog_query(muses_collection_ids, processing_date, stac_output_dir))
+    def write_delete_message(self,  data_collection_ids, stac_catalogs, collection_version, output_dir):
 
+        current_time_string = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+        id_time_string = datetime.now().strftime("%Y%m%dT%H%M%S")
+
+        for collection_id, stac in zip(data_collection_ids, stac_catalogs):
+            if len(stac['features']) == 0:
+                continue
+
+            short_name = self.get_constant_property(stac, "short_name")
+            
+            for feat in stac['features']:
+                product_id = feat['id'].replace(collection_id, "").lstrip(":")
+                delete_message_id = f"delete-{product_id}-{id_time_string}"
+
+                delete_params = {
+                    "product": {
+                    "files": [],
+                        "name": product_id,
+                    },
+                    "identifier ": delete_message_id,
+                    "collection": {
+                        "name": short_name,
+                        "version": str(collection_version),
+                    },
+                    "provider": "tropess_cloud",
+                    "version":"1.3",
+                    "submissionTime": current_time_string,
+                }
+
+                output_filename = os.path.join(output_dir, delete_message_id + ".json")
+                logger.info(f"Writing delete message to: {output_filename}")
+
+                with open(output_filename, "w") as delete_msg_file:
+                    json.dump(delete_params, delete_msg_file)
     
-    def query_data(self, collection_id_prefix, collection_id_func, collection_version, collection_group=None, processing_date=None, sensor_set_str=None, stac_output_dir=None, **kwargs):
+    def query_data(self, collection_id_prefix, collection_id_func, collection_version, collection_group=None, processing_date=None, sensor_set_str=None, write_stac_catalog=False, write_delete_message=False, output_dir=None, **kwargs):
         
         if collection_group is None:
             self.display_collection_ids(collection_id_prefix)
@@ -175,11 +201,26 @@ class DataQuery(DataTool):
         
         data_collection_ids = collection_id_func(collection_group, collection_version, sensor_set_str)
 
-        if stac_output_dir is not None:
-            self.download_collection_stac_files(data_collection_ids, processing_date, stac_output_dir)
-        else:
-            self.display_collection_summary(data_collection_ids, processing_date)
-    
+        stac_catalogs = list(self.data_catalog_query(data_collection_ids, processing_date))
+            
+        self.display_collection_summary(data_collection_ids, stac_catalogs, processing_date)
+        
+        if output_dir is not None and not os.path.exists(output_dir):
+            logger.debug(f"Creating directory {output_dir}")
+            os.makedirs(output_dir)
+
+        if write_stac_catalog:
+            if output_dir:
+                self.write_stac_files(data_collection_ids, stac_catalogs, output_dir)
+            else:
+                logger.warning(f"Can not write STAC catalog files because output directory was not defined")
+
+        if write_delete_message:
+            if output_dir is not None:
+                self.write_delete_message(data_collection_ids, stac_catalogs, collection_version, output_dir)
+            else:
+                logger.warning(f"Can not write delete message files because output directory was not defined")
+ 
     def query_muses_data(self, muses_collection_version, **kwargs):
         self.query_data("MUSES", self.muses_collection_ids, muses_collection_version, **kwargs)
 
@@ -202,9 +243,15 @@ def main():
 
     parser.add_argument("-d", "--date", dest="processing_date", required=False,
         help="Calendar date for the MUSES data to processed into TROPESS products")
-
-    parser.add_argument("-o", "--stac_output_dir", default=None,
-        help="Location to write STAC files for each collection downloaded")
+    
+    parser.add_argument("--write_stac_catalog", action="store_true", default=False,
+        help="Write out STAC catalog files for each collection queried")
+ 
+    parser.add_argument("--write_delete_message", action="store_true", default=False,
+        help="Generate a delete message JSON file for sending to DAAC")
+    
+    parser.add_argument("-o", "--output_dir", default=None,
+        help="Location to write additional files optionally create")
 
     subparsers = parser.add_subparsers(required=True, dest='subparser_name')
 

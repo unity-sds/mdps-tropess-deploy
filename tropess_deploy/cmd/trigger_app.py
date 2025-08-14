@@ -255,14 +255,14 @@ class TropessDAGRunner(DataTool):
         run_id = f"TROPESS-data_ingest_{docker_version}-{collection_group_keyword}:{input_data_ingest_path.replace("/", "-")}"
         self.trigger_dag(process_workflow_url, run_id, process_args, stac_json_url, use_ecr=True, use_stac_auth=False, trigger=trigger)
 
-    def query_input_data(self, collection_group, sensor_set_str, muses_collection_version, processing_date, stac_output_filename=None, limit=10000):
+    def query_input_data(self, collection_group, sensor_set_str, muses_collection_version, processing_date, limit=10000):
 
         muses_collection_ids = self.muses_collection_ids(collection_group, muses_collection_version, sensor_set_str)
 
         if len(muses_collection_ids) > 1:
             raise Exception(f"Multiple sensor sets for the {collection_group.keyword} collection group, add sensor_set to argument to filter")
         
-        stac_query_result = super().query_data_catalog(muses_collection_ids[0], processing_date, stac_output_filename=stac_output_filename)
+        stac_query_result = super().query_data_catalog(muses_collection_ids[0], processing_date)
 
         # Load a list of files found in the STAC results for verification purposes
         nc_files = []
@@ -278,10 +278,10 @@ class TropessDAGRunner(DataTool):
 
         return stac_query_result['links'][0]['href']
 
-    def py_tropess(self, collection_group, processing_date, product_type, processing_species, muses_collection_version, granule_version, sensor_set_str=None, stage_in_output_filename=None, trigger=False, **kwargs):
+    def py_tropess(self, collection_group, processing_date, product_type, processing_species, muses_collection_version, granule_version, sensor_set_str=None, trigger=False, **kwargs):
         
         # Get information on files we want to process
-        stac_json_url = self.query_input_data(collection_group, sensor_set_str, muses_collection_version, processing_date, stage_in_output_filename)
+        stac_json_url = self.query_input_data(collection_group, sensor_set_str, muses_collection_version, processing_date)
 
         # Now construct arguments for DAG query
         process_args = {
@@ -362,9 +362,6 @@ def main():
 
     parser_pyt.add_argument( "--tropess_version", dest="granule_version", required=False,
         help="Granule version for the collection ID being delivered to the DAAC")
-
-    parser_pyt.add_argument( "--stage_in_output", dest="stage_in_output_filename", required=False,
-        help="Save stage in STAC catalog from the data store into a file")
 
     parser_pyt.set_defaults(func=TropessDAGRunner.py_tropess)
 

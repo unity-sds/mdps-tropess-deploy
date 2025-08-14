@@ -104,7 +104,7 @@ class DataTool(MdpsTool):
         short_names = self.collection_group_short_names(collection_group, sensor_set=sensor_set_obj)
         return self.mdps_collection_ids(short_names, collection_version)
 
-    def query_data_catalog(self, mdps_collection_id, processing_date=None, stac_output_filename=None, limit=10000):
+    def query_data_catalog(self, mdps_collection_id, processing_date=None, limit=10000):
         
         logger.debug(f"Searching data catalog for MUSES data for collection {mdps_collection_id} on date {processing_date}")
 
@@ -123,10 +123,10 @@ class DataTool(MdpsTool):
         if 'features' not in stac_query_result:
             raise Exception(f"Error querying data catalog: {stac_query_result}")
 
-        # Write out STAC file before further checking might exit program
-        if stac_output_filename is not None:
-            logger.info(f"Writing STAC result to: {stac_output_filename}")
-            with open(stac_output_filename, "w") as stage_in_file:
-                json.dump(stac_query_result, stage_in_file)
-
         return stac_query_result
+
+    def write_stac_catalog(self, stac_query_result, stac_output_filename):
+        # Write out STAC file
+        logger.info(f"Writing STAC result to: {stac_output_filename}")
+        with open(stac_output_filename, "w") as stage_in_file:
+            json.dump(stac_query_result, stage_in_file)
