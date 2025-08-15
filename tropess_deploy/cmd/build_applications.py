@@ -12,11 +12,10 @@ import yaml
 
 from unity_app_generator import interface as build_interface
 
-from ..mdps.tool import API_Tool
+from ..mdps.tool import MdpsTool
 
-# Deploy artfacts back to this repo
-DEPLOY_BASE_DIR = os.path.realpath(os.path.dirname(__file__))
-APP_STATE_DIR = os.path.join(DEPLOY_BASE_DIR, ".app_state")
+# Deploy artifacts back to this repo
+APP_STATE_DIRNAME = ".app_state"
 
 DOCKER_IMAGE_NAMESPACE = "tropess"
 DEFAULT_DOCKER_IMAGE_TAG = "latest"
@@ -28,7 +27,7 @@ SOURCE_REPOS = {
     "py_tropess":"git@github.jpl.nasa.gov:MUSES-Processing/py-tropess.git", 
 }
 
-# Directories under DEPLOY_BASE_DIR where to put artifact files
+# Directories under deploy_base_dir where to put artifact files
 ARTIFACT_DIRS = {
     "muses_ingest": "mdps-muses-data-ingest",
     "py_tropess": "py-tropess",
@@ -40,18 +39,15 @@ EXAMPLE_JOB_INPUT_FILENAME = "example_job_input.json"
 
 logger = logging.getLogger()
 
-class DeployApp(API_Tool):
+class DeployApp(MdpsTool):
 
-    def __init__(self, deploy_base_dir=None, **vargs, **kwargs):
-        super().__init__(*vargs, **kwargs)
-
-        assert deploy_base_dir is not None
-        self.deploy_base_dir = deploy_base_dir
-
-    def __init__(self, app_name, env_config_file=None, **kwargs):
+    def __init__(self, app_name, env_config_file=None, deploy_base_dir=None, **kwargs):
         super().__init__(env_config_file=env_config_file)
 
         self.app_name = app_name
+        
+        assert deploy_base_dir is not None
+        self.deploy_base_dir = deploy_base_dir
 
         self._verify_project_venue_name(self.mdps_project, self.mdps_venue)
 
@@ -68,7 +64,7 @@ class DeployApp(API_Tool):
         "Where artifacts for unity-app-generator are stored"
         
         # Keep a seperate state dir for each application
-        state_dir = os.path.join(APP_STATE_DIR, self.app_name)
+        state_dir = os.path.join(self.deploy_base_dir, APP_STATE_DIRNAME, self.app_name)
         if not os.path.exists(state_dir):
             os.makedirs(state_dir)
 
@@ -128,7 +124,7 @@ class DeployApp(API_Tool):
         source_cwl_fn = os.path.join(self.app_state_dir, "cwl", SOURCE_CWL_ARTIFACT_FILENAME)
 
         dest_filename = DEST_CWL_ARTIFACT_FILENAME.format(project_name=self.mdps_project, venue_name=self.mdps_venue)
-        dest_cwl_fn = os.path.join(DEPLOY_BASE_DIR, app_artifact_dirname, dest_filename)
+        dest_cwl_fn = os.path.join(self.deploy_base_dir, app_artifact_dirname, dest_filename)
 
         shutil.copyfile(source_cwl_fn, dest_cwl_fn)
 
@@ -194,7 +190,7 @@ def main():
         if app_name not in SOURCE_REPOS:
             raise Exception(f"Unknown application: {app_name}")
 
-        app_deploy = DeployApp(app_name)
+        app_deploy = DeployApp(app_name, deploy_base_dir=args.deploy_base_dir)
         app_deploy.init_repo(getattr(args, app_name))
         if not args.skip_build:
             app_deploy.build_app(args.docker_tag)
