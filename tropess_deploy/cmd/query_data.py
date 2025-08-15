@@ -90,11 +90,17 @@ class DataQuery(DataTool):
         table.add_row(["Collection ID", collection_id])
         table.add_row(["Collection Group", self.get_constant_property(stac, "collection_group")])
         table.add_row(["Sensor Set", self.get_constant_property(stac, "sensor_set")])
-        table.add_row(["Product Stage", self.get_constant_property(stac, "product_stage")])
-        table.add_row(["Product Type", self.get_constant_property(stac, "product_type")])
-        table.add_row(["Short Name", self.get_constant_property(stac, "short_name")])
-        table.add_row(["Long Name", self.get_constant_property(stac, "long_name")])
+
+        product_stage = self.get_constant_property(stac, "product_stage")
+        table.add_row(["Product Stage", product_stage])
+
+        if product_stage != "MUSES":
+            table.add_row(["Product Type", self.get_constant_property(stac, "product_type")])
+            table.add_row(["Short Name", self.get_constant_property(stac, "short_name")])
+            table.add_row(["Long Name", self.get_constant_property(stac, "long_name")])
+
         table.add_row(["Product Version", self.get_constant_property(stac, "product_version")])
+
         if processing_date is not None:
             table.add_row(["Date", dateparser.parse(processing_date).strftime("%Y-%m-%d")])
 
