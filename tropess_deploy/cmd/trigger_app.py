@@ -298,7 +298,7 @@ class TropessDAGRunner(DataTool):
         # Unique identifier formed by inputs
         run_id = f"TROPESS-py_tropess_{docker_version}-{collection_group.keyword}-{sensor_set_str}-{processing_date}-{product_type}"
         if processing_species is not None and processing_species != "null":
-            species_id = processing_species.replace(" ", "")
+            species_id = processing_species.replace(" ", "").replace(",","_")
             run_id += f"-{species_id}"
 
         # With verification done, trigger the Airflow run
