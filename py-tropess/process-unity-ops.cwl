@@ -25,8 +25,8 @@ inputs:
     type: int
   input: Directory
   processing_species:
-    default: null
-    type: 'null'
+    default: ''
+    type: string
   product_type:
     default: standard
     type: string
@@ -41,7 +41,7 @@ outputs:
     type: File
 requirements:
   DockerRequirement:
-    dockerPull: 103739919403.dkr.ecr.us-west-2.amazonaws.com/tropess/py-tropess:1.2.0
+    dockerPull: 103739919403.dkr.ecr.us-west-2.amazonaws.com/tropess/py-tropess:1.2.1
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs)
