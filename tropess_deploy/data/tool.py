@@ -61,7 +61,7 @@ class DataTool(MdpsTool):
         # Create a MDPS/Unity collection for each TROPESS product shortname in the collection group
         our_collection_ids = []
         for short_name in tropess_short_names:
-            collection_id = f"URN:NASA:UNITY:{self.mdps_project.upper()}:{self.mdps_venue.upper()}:".upper() + f"{short_name}___{collection_version}"
+            collection_id = f"URN:NASA:UNITY:{self.mdps_project}:{self.mdps_venue}:" + f"{short_name}___{collection_version}"
             our_collection_ids.append(collection_id)
  
         return our_collection_ids
@@ -104,12 +104,18 @@ class DataTool(MdpsTool):
         short_names = self.collection_group_short_names(collection_group, sensor_set=sensor_set_obj)
         return self.mdps_collection_ids(short_names, collection_version)
 
-    def query_data_catalog(self, mdps_collection_id, processing_date=None, limit=10000):
+    def query_data_catalog(self, mdps_collection_id, processing_date=None, date_range=None, limit=1000):
         
         logger.debug(f"Searching data catalog for MUSES data for collection {mdps_collection_id} on date {processing_date}")
 
         # Get consistent date string for DS query -> YYYY-MM-DD
-        if processing_date is not None:
+        if date_range is not None:
+            try:
+                start_date, stop_date = [ dateparser.parse(d).strftime("%Y-%m-%d") for d in date_range ]
+            except AttributeError as exc:
+                raise AttributeError(f"Invalid date range values: {date_range}")
+            query_filter = f"processing_datetime>='{start_date}' and processing_datetime<='{stop_date}'"
+        elif processing_date is not None:
             processing_date = dateparser.parse(processing_date).strftime("%Y-%m-%d")
             query_filter = f"processing_datetime='{processing_date}'"
         else:

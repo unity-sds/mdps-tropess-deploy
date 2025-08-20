@@ -72,10 +72,10 @@ class DataQuery(DataTool):
 
         return catalog_collection_ids
 
-    def data_catalog_query(self, collection_ids, processing_date, limit=10000):
+    def data_catalog_query(self, collection_ids, processing_date, date_range, query_limit):
 
         for curr_id in collection_ids:
-            yield super().query_data_catalog(curr_id, processing_date)
+            yield super().query_data_catalog(curr_id, processing_date=processing_date, date_range=date_range, limit=query_limit)
 
     def display_collection_ids(self, prefix):
         
@@ -199,7 +199,7 @@ class DataQuery(DataTool):
                 with open(output_filename, "w") as delete_msg_file:
                     json.dump(delete_params, delete_msg_file)
     
-    def query_data(self, collection_id_prefix, collection_id_func, collection_version, collection_group=None, processing_date=None, sensor_set_str=None, write_stac_catalog=False, write_delete_message=False, output_dir=None, **kwargs):
+    def query_data(self, collection_id_prefix, collection_id_func, collection_version, collection_group=None, processing_date=None, date_range=None, query_limit=None, sensor_set_str=None, write_stac_catalog=False, write_delete_message=False, output_dir=None, **kwargs):
         
         if collection_group is None:
             self.display_collection_ids(collection_id_prefix)
@@ -207,7 +207,7 @@ class DataQuery(DataTool):
         
         data_collection_ids = collection_id_func(collection_group, collection_version, sensor_set_str)
 
-        stac_catalogs = list(self.data_catalog_query(data_collection_ids, processing_date))
+        stac_catalogs = list(self.data_catalog_query(data_collection_ids, processing_date, date_range, query_limit))
             
         self.display_collection_summary(data_collection_ids, stac_catalogs, processing_date)
         
@@ -247,11 +247,19 @@ def main():
     parser.add_argument("-s", "--sensor_set", dest="sensor_set_str", default=None,
         help="Filter by sensor set for the collection group")
 
-    parser.add_argument("-d", "--date", dest="processing_date", required=False,
+    group = parser.add_mutually_exclusive_group()
+
+    group.add_argument("-d", "--processing_date", dest="processing_date", required=False,
         help="Calendar date for the MUSES data to processed into TROPESS products")
+
+    group.add_argument("-r", "--date_range", dest="date_range", nargs=2, required=False,
+        help="Range of dates to query for an overview other than all")
     
     parser.add_argument("--write_stac_catalog", action="store_true", default=False,
         help="Write out STAC catalog files for each collection queried")
+
+    parser.add_argument("--limit", dest="query_limit", type=int, required=False, default=1000,
+        help="Limit the number of query results to avoid errors for large results")
  
     parser.add_argument("--write_delete_message", action="store_true", default=False,
         help="Generate a delete message JSON file for sending to DAAC")
