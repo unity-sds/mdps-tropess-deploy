@@ -41,7 +41,7 @@ outputs:
     type: File
 requirements:
   DockerRequirement:
-    dockerPull: 103739919403.dkr.ecr.us-west-2.amazonaws.com/tropess/py-tropess:1.2.1
+    dockerPull: 103739919403.dkr.ecr.us-west-2.amazonaws.com/tropess/py-tropess:1.3.0
   InitialWorkDirRequirement:
     listing:
     - entry: $(inputs)
