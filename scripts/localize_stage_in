@@ -16,7 +16,7 @@ stage_in_cwl_local=$(mktemp)
 wget -O $stage_in_cwl_local "$STAGE_IN_CWL_REMOTE" 
 
 # unity-app-to-app-client-user-pool-client
-CLIENT_ID="71894molftjtie4dvvkbjeard0"
+CLIENT_ID="7vehllplbone6p4usqgutqun35"
 
 DEFAULT_DOWNLOAD_DIR="./stage_in_download"
 
