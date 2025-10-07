@@ -5,7 +5,8 @@
 import os
 
 import dateparser
-from datetime import datetime
+from datetime import datetime, timedelta
+import calendar
 
 import argparse
 
@@ -100,9 +101,11 @@ class DataQuery(DataTool):
             table.add_row(["Long Name", self.get_constant_property(stac, "long_name")])
 
         table.add_row(["Product Version", self.get_constant_property(stac, "product_version")])
-
+        
         if processing_date is not None:
             table.add_row(["Date", dateparser.parse(processing_date).strftime("%Y-%m-%d")])
+        else:
+            table.add_row(["Num Dates", len(self.stac_date_status(stac))])
 
         print(table)
 
@@ -234,6 +237,15 @@ class DataQuery(DataTool):
 
         self.query_data("TRPS", self.tropess_collection_ids, tropess_collection_version, **kwargs)
         
+def month_date_range(month_str):
+    month_beg = datetime.strptime(month_str, "%Y-%m")
+    _, num_days = calendar.monthrange(month_beg.year, month_beg.month)
+    
+    month_end = month_beg + timedelta(days=num_days-1)
+
+    out_fmt = "%Y-%m-%d"
+    return month_beg.strftime(out_fmt), month_end.strftime(out_fmt)
+
 def main():
 
     parser = argparse.ArgumentParser(description="Query TROPESS data in MDPS")
@@ -254,6 +266,9 @@ def main():
 
     group.add_argument("-r", "--date_range", dest="date_range", nargs=2, required=False,
         help="Range of dates to query for an overview other than all")
+
+    group.add_argument("-m", "--month", dest="month", required=False,
+        help="Month in the form YYYY-MM to query for an overview")
     
     parser.add_argument("--write_stac_catalog", action="store_true", default=False,
         help="Write out STAC catalog files for each collection queried")
@@ -297,6 +312,9 @@ def main():
         logging.basicConfig(level=logging.INFO)
 
     args_dict = vars(args)
+
+    if "month" in args_dict:
+        args_dict['date_range'] = month_date_range(args_dict["month"])
 
     # Find collection group object from keyword name
     args_dict['collection_group'] = None
