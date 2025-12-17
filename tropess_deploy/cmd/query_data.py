@@ -246,6 +246,9 @@ def month_date_range(month_str):
     out_fmt = "%Y-%m-%d"
     return month_beg.strftime(out_fmt), month_end.strftime(out_fmt)
 
+def year_date_range(year_str):
+    return f"{year_str}-01-01", f"{year_str}-12-31"
+
 def main():
 
     parser = argparse.ArgumentParser(description="Query TROPESS data in MDPS")
@@ -269,6 +272,9 @@ def main():
 
     group.add_argument("-m", "--month", dest="month", required=False,
         help="Month in the form YYYY-MM to query for an overview")
+
+    group.add_argument("-y", "--year", dest="year", required=False,
+        help="Year in the form YYYY to query for an overview")
     
     parser.add_argument("--write_stac_catalog", action="store_true", default=False,
         help="Write out STAC catalog files for each collection queried")
@@ -313,8 +319,11 @@ def main():
 
     args_dict = vars(args)
 
-    if "month" in args_dict:
+    if "month" in args_dict and args_dict["month"] is not None:
         args_dict['date_range'] = month_date_range(args_dict["month"])
+
+    if "year" in args_dict and args_dict["year"] is not None:
+        args_dict['date_range'] = year_date_range(args_dict["year"])
 
     # Find collection group object from keyword name
     args_dict['collection_group'] = None
