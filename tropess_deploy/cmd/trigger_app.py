@@ -93,10 +93,15 @@ class TropessDAGRunner(DataTool):
 
         logger.info(f"Using Airflow API URL: {trigger_url}")
 
+        if "AIRFLOW_BASIC_AUTH" in os.environ:
+            auth_header = "Basic " + os.environ["AIRFLOW_BASIC_AUTH"]
+        else:
+            auth_header = "Bearer " + self.unity._session.get_auth().get_token()
+
         headers = {
             "Content-type": "application/json", 
             "Accept": "text/json",
-            "Authorization": "Bearer " + self.unity._session.get_auth().get_token(),
+            "Authorization": auth_header
         }
 
         dt_now = datetime.now(timezone.utc)
