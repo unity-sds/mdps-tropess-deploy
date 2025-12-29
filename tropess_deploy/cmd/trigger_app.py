@@ -79,7 +79,7 @@ class TropessDAGRunner(DataTool):
 
         return response['Parameter']['Value']
 
-    def trigger_dag(self, process_workflow, run_id, process_args, stac_json, use_ecr=True, use_stac_auth=True, trigger=False):
+    def trigger_dag(self, process_workflow, run_id, process_args, stac_json, use_ecr=True, use_stac_auth=True, trigger=False, rerun=False):
 
         # get airflow host,user,pwd from ENV variables
         if "AIRFLOW_API_URL" in os.environ:
@@ -89,7 +89,10 @@ class TropessDAGRunner(DataTool):
 
         dag_name = os.getenv("AIRFLOW_DAG_NAME", DEFAULT_DAG_NAME)
 
-        trigger_url = os.path.join(airflow_api_url, f"dags/{dag_name}/dagRuns")
+        if rerun:
+            trigger_url = os.path.join(airflow_api_url, f"dags/{dag_name}/clearTaskInstances")
+        else:
+            trigger_url = os.path.join(airflow_api_url, f"dags/{dag_name}/dagRuns")
 
         logger.info(f"Using Airflow API URL: {trigger_url}")
 
@@ -109,24 +112,34 @@ class TropessDAGRunner(DataTool):
 
         # data = {"logical_date": logical_date}
         # Example on how to pass DAG specific parameters
-        data = {
-            "dag_run_id": run_id,
-            "logical_date": logical_date,
-            "conf": {
-                "process_args": json.dumps(process_args),
-                "process_workflow": process_workflow,
-                "stac_json": stac_json,
-                "request_instance_type": REQUEST_INSTANCE_TYPE,
-                "request_storage": REQUEST_STORAGE,
-                "use_ecr": use_ecr,
-                "unity_stac_auth_type": use_stac_auth,
-            },
-        }
+        if rerun:
+            data = {
+                "dag_run_id": run_id,
+                "dry_run": False,
+                "reset_dag_runs": True,
+                "only_failed": False,
+            }
+        else:
+            data = {
+                "dag_run_id": run_id,
+                "logical_date": logical_date,
+                "conf": {
+                    "process_args": json.dumps(process_args),
+                    "process_workflow": process_workflow,
+                    "stac_json": stac_json,
+                    "request_instance_type": REQUEST_INSTANCE_TYPE,
+                    "request_storage": REQUEST_STORAGE,
+                    "use_ecr": use_ecr,
+                    "unity_stac_auth_type": use_stac_auth,
+                },
+            }
 
         logger.debug("DAG parameters:")
         logger.debug(pformat(data, indent=2))
-        logger.debug("process_args from DAG parameters as one line:")
-        logger.debug(data['conf']['process_args'])
+
+        if not rerun:
+            logger.debug("process_args from DAG parameters as one line:")
+            logger.debug(data['conf']['process_args'])
 
         if trigger:
             logger.info(f"Triggering Airflow DAG at: {trigger_url}")
@@ -228,7 +241,7 @@ class TropessDAGRunner(DataTool):
 
         return process_workflow_url, docker_version
 
-    def data_ingest(self, input_data_ingest_path, collection_group_keyword, input_data_base_path, collection_version, trigger=False,  **kwargs):
+    def data_ingest(self, input_data_ingest_path, collection_group_keyword, input_data_base_path, collection_version, trigger=False, rerun=False,  **kwargs):
         assert(input_data_ingest_path is not None)
         assert(collection_group_keyword is not None)
         assert(input_data_base_path is not None)
@@ -258,7 +271,7 @@ class TropessDAGRunner(DataTool):
 
         # With verification done, trigger the Airflow run
         run_id = f"TROPESS-data_ingest_{docker_version}-{collection_group_keyword}:{input_data_ingest_path.replace("/", "-")}"
-        self.trigger_dag(process_workflow_url, run_id, process_args, stac_json_url, use_ecr=True, use_stac_auth=False, trigger=trigger)
+        self.trigger_dag(process_workflow_url, run_id, process_args, stac_json_url, use_ecr=True, use_stac_auth=False, trigger=trigger, rerun=rerun)
 
     def query_input_data(self, collection_group, sensor_set_str, muses_collection_version, processing_date, limit=10000):
 
@@ -283,7 +296,7 @@ class TropessDAGRunner(DataTool):
 
         return stac_query_result['links'][0]['href']
 
-    def py_tropess(self, collection_group, processing_date, product_type, processing_species, muses_collection_version, granule_version, sensor_set_str=None, trigger=False, **kwargs):
+    def py_tropess(self, collection_group, processing_date, product_type, processing_species, muses_collection_version, granule_version, sensor_set_str=None, trigger=False, rerun=False, **kwargs):
         
         # Get information on files we want to process
         stac_json_url = self.query_input_data(collection_group, sensor_set_str, muses_collection_version, processing_date)
@@ -307,7 +320,7 @@ class TropessDAGRunner(DataTool):
             run_id += f"-{species_id}"
 
         # With verification done, trigger the Airflow run
-        self.trigger_dag(process_workflow_url, run_id, process_args, stac_json_url, use_ecr=True, use_stac_auth=True, trigger=trigger)
+        self.trigger_dag(process_workflow_url, run_id, process_args, stac_json_url, use_ecr=True, use_stac_auth=True, trigger=trigger, rerun=rerun)
         
 def main():
 
@@ -318,6 +331,9 @@ def main():
 
     parser.add_argument("--trigger", action="store_true", default=False,
         help="Unless specified the Airflow is not trigger, instead a dry run is done")
+
+    parser.add_argument("--rerun", action="store_true", default=False,
+        help="Trigger job as a rerun instead of a new run")
 
     parser.add_argument("--deployment_dir", dest="deploy_base_dir", default=os.curdir,
         help="Location where CWL artifacts are deployed")
